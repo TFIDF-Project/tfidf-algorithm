@@ -58,6 +58,20 @@ void LImprime(List *l){
 
 //Função que lê o arquivo .txt contendo as stopwords e às tokeniza inserindo-as cada uma em uma posição da lista dinâmica.
 void readStopWords(List *lw1, List *lw2, List *lw3, List *lw4, List *lw5, List *lw6, List *lw7, List *lw8, List *lw9, List *lw10, List *lw11, List *lw12, List *lw13, Item d){
+	FLVazia(lw1);
+	FLVazia(lw2);
+	FLVazia(lw3);
+	FLVazia(lw4);
+	FLVazia(lw5);
+	FLVazia(lw6);
+	FLVazia(lw7);
+	FLVazia(lw8);
+	FLVazia(lw9);
+	FLVazia(lw10);
+	FLVazia(lw11);
+	FLVazia(lw12);
+	FLVazia(lw13);
+
 	string line;
 	ifstream my_file;
 	int numberCaracters;
@@ -130,4 +144,87 @@ void readStopWords(List *lw1, List *lw2, List *lw3, List *lw4, List *lw5, List *
 	else{
 		cout << "Arquivo não abriu.\n";
 	} 
+}
+
+
+//Printa todas as listas de stopwords.
+void printStopWordsLists(List *lw1, List *lw2, List *lw3, List *lw4, List *lw5, List *lw6, List *lw7, List *lw8, List *lw9, List *lw10, List *lw11, List *lw12, List *lw13){
+	
+	cout << "\n\tLista de 1 caractere\n\n";
+	LImprime(lw1);
+
+	cout << "\n\tLista de 2 caracteres\n\n";
+	LImprime(lw2);
+
+	cout << "\n\tLista de 3 caracteres\n\n";
+	LImprime(lw3);
+
+	cout << "\n\tLista de 4 caracteres\n\n";
+	LImprime(lw4);
+
+	cout << "\n\tLista de 5 caracteres\n\n";
+	LImprime(lw5);
+
+	cout << "\n\tLista de 6 caracteres\n\n";
+	LImprime(lw6);
+
+	cout << "\n\tLista de 7 caracteres\n\n";
+	LImprime(lw7);	
+
+	cout << "\n\tLista de 8 caracteres\n\n";
+	LImprime(lw8);
+
+	cout << "\n\tLista de 9 caracteres\n\n";
+	LImprime(lw9);
+
+	cout << "\n\tLista de 10 caracteres\n\n";
+	LImprime(lw10);
+
+	cout << "\n\tLista de 11 caracteres\n\n";
+	LImprime(lw11);
+
+	cout << "\n\tLista de 12 caracteres\n\n";
+	LImprime(lw12);
+
+	cout << "\n\tLista de 13 caracteres\n\n";
+	LImprime(lw13);		
+}
+
+
+//Função para ler os documentos de texto para fazer ranqueamento das palavras encontradas nestes documentos. (DANDO ERRO)
+void readDocuments(List *ldoc, Item d){
+	FLVazia(ldoc);
+
+	string line;
+	ifstream my_file;
+	int numberDocuments;
+
+	cout << "Insira a quantidade de documentos que deseja ler: ";
+	cin >> numberDocuments;
+
+	string vetDocuments[numberDocuments];
+
+	for(int i = 0; i < numberDocuments; i++){
+		cout << "Insira o nome do documento " << i << " que deseja ler: ";
+		cin >> vetDocuments[i];
+	}
+
+	for(int i = 0; i < numberDocuments; i++){
+		
+		my_file.open(vetDocuments[i]);
+
+		if(my_file.is_open()){
+			while(! my_file.eof()){
+				getline(my_file, line);
+				d.word = line;
+				LInsert(ldoc, d);
+			}
+			my_file.close();
+			cout << "\n";
+		}
+
+		else{
+			cout << "Arquivo não abriu.\n";
+		} 
+	}
 }
