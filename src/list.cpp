@@ -5,7 +5,6 @@ void Swap(Block *a, Block *b){
 	aux = a->data;
 	a->data = b->data;
 	b->data = aux;
-	
 }
 
 void FLVazia(List *l){
@@ -54,23 +53,65 @@ void LImprime(List *l){
 		cout << aux->data.word << endl;
 		aux = aux->prox;
 	}
-
 }
 
+
 //Função que lê o arquivo .txt contendo as stopwords e às tokeniza inserindo-as cada uma em uma posição da lista dinâmica.
-void readStopWords(List *l, Item d){
+void readStopWords(List *lw1, List *lw2, List *lw3, List *lw4, List *lw5, List *lw6, List *lw7, List *lw8, List *lw9,List *lw10, Item d){
 	string line;
 	ifstream my_file;
+	int numberCaracters;
 
-	my_file.open("stopwords.txt");
+	my_file.open("stopwords_english.txt");
 
 	if(my_file.is_open()){
 		while(! my_file.eof()){
 			getline(my_file, line);
 			d.word = line;
-			LInsert(l, d);
+			numberCaracters = line.length(); //É subtraido 1 da contagem de caracteres, pois cada palavra contém 1 caractere '\0' depois do seu final. 
+
+			//Se a palavra ter 1 caractere, será inserida na Lista lw1.
+			if(numberCaracters == 2){
+				LInsert(lw1, d);
+			}
+			//Se a palavra ter 2 caracteres, será inserida na Lista lw2.
+			else if(numberCaracters == 3){
+				LInsert(lw2, d);
+			}
+			//Se a palavra ter 3 caracteres, será inserida na Lista lw3.
+			else if(numberCaracters == 4){
+				LInsert(lw3, d);
+			}
+			//Se a palavra ter 4 caracteres, será inserida na Lista lw4.
+			else if(numberCaracters == 5){
+				LInsert(lw4, d);
+			}
+			//Se a palavra ter 5 caracteres, será inserida na Lista lw5.
+			else if(numberCaracters == 6){
+				LInsert(lw5, d);
+			}
+			//Se a palavra ter 6 caracteres, será inserida na Lista lw6.
+			else if(numberCaracters == 7){
+				LInsert(lw6, d);
+			}
+			//Se a palavra ter 7 caracteres, será inserida na Lista lw7.
+			else if(numberCaracters == 8){
+				LInsert(lw7, d);
+			}
+			//Se a palavra ter 8 caracteres, será inserida na Lista lw8.
+			else if(numberCaracters == 9){
+				LInsert(lw8, d);
+			}
+			//Se a palavra ter 9 caracteres, será inserida na Lista lw9.
+			else if(numberCaracters == 10){
+				LInsert(lw9, d);
+			}
+			//Se a palavra ter 10 caracteres, será inserida na Lista lw10.
+			else if(numberCaracters == 11){
+				LInsert(lw10, d);
+			}
 		}
-		my_file.close();
+		my_file.close(); //Fecha o arquivo de texto.
 		cout << "\n";
 	}
 

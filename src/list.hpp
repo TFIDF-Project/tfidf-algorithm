@@ -1,9 +1,10 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
-#include <string>
 #include <iostream>
+#include <string>
 #include <fstream>
+#include <cstring>
 
 using namespace std;
 
@@ -32,6 +33,7 @@ void LRemove(List *l, Item d);
 void Swap(Block *a, Block *b);
 void LImprime(List *l);
 
-void readStopWords(List *l, Item d); //Função que lê o arquivo .txt contendo as stopwords e às tokeniza inserindo-as cada uma em uma posição da lista dinâmica.
+//Função que lê o arquivo .txt contendo as stopwords e às tokeniza inserindo-as cada uma em uma posição da lista dinâmica.
+void readStopWords(List *lw1, List *lw2, List *lw3, List *lw4, List *lw5, List *lw6, List *lw7, List *lw8, List *lw9,List *lw10, Item d); 
 
 #endif
