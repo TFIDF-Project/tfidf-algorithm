@@ -57,18 +57,18 @@ void LImprime(List *l){
 
 
 //Função que lê o arquivo .txt contendo as stopwords e às tokeniza inserindo-as cada uma em uma posição da lista dinâmica.
-void readStopWords(List *lw1, List *lw2, List *lw3, List *lw4, List *lw5, List *lw6, List *lw7, List *lw8, List *lw9,List *lw10, Item d){
+void readStopWords(List *lw1, List *lw2, List *lw3, List *lw4, List *lw5, List *lw6, List *lw7, List *lw8, List *lw9, List *lw10, List *lw11, List *lw12, List *lw13, Item d){
 	string line;
 	ifstream my_file;
 	int numberCaracters;
 
-	my_file.open("stopwords_english.txt");
+	my_file.open("stopwords_portuguese.txt");
 
 	if(my_file.is_open()){
 		while(! my_file.eof()){
 			getline(my_file, line);
 			d.word = line;
-			numberCaracters = line.length(); //É subtraido 1 da contagem de caracteres, pois cada palavra contém 1 caractere '\0' depois do seu final. 
+			numberCaracters = line.length(); //Contagem do número de caracteres das stopwords.
 
 			//Se a palavra ter 1 caractere, será inserida na Lista lw1.
 			if(numberCaracters == 2){
@@ -109,6 +109,18 @@ void readStopWords(List *lw1, List *lw2, List *lw3, List *lw4, List *lw5, List *
 			//Se a palavra ter 10 caracteres, será inserida na Lista lw10.
 			else if(numberCaracters == 11){
 				LInsert(lw10, d);
+			}
+			//Se a palavra ter 11 caracteres, será inserida na Lista lw11.
+			else if(numberCaracters == 12){
+				LInsert(lw11, d);
+			}
+			//Se a palavra ter 12 caracteres, será inserida na Lista lw12.
+			else if(numberCaracters == 13){
+				LInsert(lw12, d);
+			}
+			//Se a palavra ter 13 caracteres, será inserida na Lista lw13.
+			else if(numberCaracters == 14){
+				LInsert(lw13, d);
 			}
 		}
 		my_file.close(); //Fecha o arquivo de texto.

@@ -2,7 +2,7 @@
 
 int main()
 {
-	List lw1, lw2, lw3, lw4, lw5, lw6, lw7, lw8, lw9, lw10;
+	List lw1, lw2, lw3, lw4, lw5, lw6, lw7, lw8, lw9, lw10, lw11, lw12, lw13;
 	Item aux;
 
 	FLVazia(&lw1);
@@ -15,10 +15,13 @@ int main()
 	FLVazia(&lw8);
 	FLVazia(&lw9);
 	FLVazia(&lw10);
+	FLVazia(&lw11);
+	FLVazia(&lw12);
+	FLVazia(&lw13);
 
-	readStopWords(&lw1, &lw2, &lw3, &lw4, &lw5, &lw6, &lw7, &lw8, &lw9, &lw10, aux);
+	readStopWords(&lw1, &lw2, &lw3, &lw4, &lw5, &lw6, &lw7, &lw8, &lw9, &lw10, &lw11, &lw12, &lw13, aux);
 
-/*	//Testando as inserções das listas de stopswords.
+	//Testando as inserções das listas de stopswords.
 
 	cout << "\n\tLista de 1 caractere\n\n";
 	LImprime(&lw1);
@@ -49,7 +52,16 @@ int main()
 
 	cout << "\n\tLista de 10 caracteres\n\n";
 	LImprime(&lw10);
-*/
+
+	cout << "\n\tLista de 11 caracteres\n\n";
+	LImprime(&lw11);
+
+	cout << "\n\tLista de 12 caracteres\n\n";
+	LImprime(&lw12);
+
+	cout << "\n\tLista de 13 caracteres\n\n";
+	LImprime(&lw13);			
+
 
 	return 0;
 }
