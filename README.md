@@ -165,6 +165,7 @@ A condição acima analisa se a variável <code>numberCaracters</code> é igual 
 
 <ul>
 	<li>Nas condições de inserção à lista, para as <i>stopwords</i> de <i>x</i> caracteres a condição é valida para quando <code>numberCaracters</code> for igual a <i>x + 1</i> porque na leitura do arquivo, o caractere <code>/0</code> ao final da linha é contado também.</li>
+	<li>Foi feita a separação das stopwords em 13 diferentes listas dinâmicas a fim de diminuir o custo computacional de comparação com as palavras dos documentos  posteriormente, fazendo a contagem de caracteres da palavra do documento onde, se a palavra possuir de 1 a 13 caracteres será feita a comparação com a lista de <i>stopwords</i> que possuir a mesma quantidade de caracteres desta palavra e se houver mais que 13 caracteres, essa palavra não se encaixa às <i>stopwords</i>, então será uma comparação a menos para ser feita.</li>
 	
 </ul>
 
