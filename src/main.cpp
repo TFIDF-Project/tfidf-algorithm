@@ -1,17 +1,27 @@
 #include "list.hpp"
+using namespace std;
 
-int main()
-{
-	List lw1, lw2, lw3, lw4, lw5, lw6, lw7, lw8, lw9, lw10, lw11, lw12, lw13; //Listas de stopwords
-	// List ldocs;
-	Item aux, doc;
+// string string_treatment(string s) {
+// 	int size = s.size();
+// 	string aux;
 
-	readStopWords(&lw1, &lw2, &lw3, &lw4, &lw5, &lw6, &lw7, &lw8, &lw9, &lw10, &lw11, &lw12, &lw13, aux);
+// 	for (int i = 0; i < size; i++) {
+// 		if (s[i] != '.' && s[i]!= ',' && s[i] != ':' && s[i] != ';' && s[i] != '?' && s[i] != '!' && s[i] != '(' && s[i] != ')' && s[i] != '[' && s[i] != ']' && s[i] != '{'
+// 			&& s[i] != '}' && s[i] != '+'&& s[i] != '=' && s[i] != '-' && s[i] != '*' && s[i] != '/') {
+// 			s[i] = tolower(s[i]);
+//             aux += s[i];
+// 		}
+// 	}
+ 
+// 	return aux;
+// }
 
-	// readDocuments(&ldocs, doc);
-	// LImprime(&ldocs);
+int main () {
+    size_t t;
+    t = clock();
+    tf_idf();
+    t = clock() - t;
 
-	printStopWordsLists(&lw1, &lw2, &lw3, &lw4, &lw5, &lw6, &lw7, &lw8, &lw9, &lw10, &lw11, &lw12, &lw13);
-
-	return 0;
+    cout << endl << "TEMPO DE EXECUÇÃO EM TICK: " << t << endl;
+    cout << "TEMPO DE EXECUÇÃO EM SEGUNDOS: " << float(t) / CLOCKS_PER_SEC << endl;
 }
