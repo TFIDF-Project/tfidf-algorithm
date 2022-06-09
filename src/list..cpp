@@ -9,6 +9,17 @@ void Swap(Block *a, Block *b){
 	
 }
 
+// aux = i ->single_cont;
+// i -> single_cont = j->single_cont;
+// j -> single_cont = aux;
+
+void swap(Block *a, Block *b) {
+	WordCounter aux;
+	aux = a -> single_cont;
+	a -> single_cont = b -> single_cont;
+	b -> single_cont = aux;
+}
+
 void FLVazia(List *l){
 	l -> first = new Block;
 	l -> last  = l -> first;
@@ -27,6 +38,24 @@ void LInsertCont(List *l, Contador d){
 	l -> last = l -> last -> prox;
 	l -> last -> cont = d;
 	l -> last -> prox = NULL;
+}
+
+void LInsertWordCounter(List *l, WordCounter d){
+	l -> last -> prox = new Block;
+	l -> last = l -> last -> prox;
+	l -> last-> single_cont = d;
+	l -> last -> prox = NULL;
+}
+
+void LImprimeWordCounter(List *l){
+	Block *aux;
+
+	aux = l -> first -> prox;
+	while(aux != NULL){
+		cout << "PALAVRA: " << aux -> single_cont.word;
+		cout << "\t\t\t\tVALOR: " << aux -> single_cont.contador << endl; 
+		aux = aux->prox;
+	}
 }
 
 void LRemove(List *l, Item d){
@@ -64,13 +93,21 @@ void LImprime(List *l){
 	}
 }
 
+bool list_is_empty(List *l) {
+	if (l -> first == l -> last || l == NULL || l -> first -> prox == NULL){
+		return true;
+	} else {
+		return false;
+	}
+}
+
 string string_treatment(string s) {
 	int size = s.size();
 	string aux;
 
 	for (int i = 0; i < size; i++) {
 		if (s[i] != '.' && s[i]!= ',' && s[i] != ':' && s[i] != ';' && s[i] != '?' && s[i] != '!' && s[i] != '(' && s[i] != ')' && s[i] != '[' && s[i] != ']' && s[i] != '{'
-			&& s[i] != '}' && s[i] != '+'&& s[i] != '=' && s[i] != '-' && s[i] != '*' && s[i] != '/' && !isdigit(s[i])) {
+			&& s[i] != '}' && s[i] != '+'&& s[i] != '=' && s[i] != '-' && s[i] != '*' && s[i] != '/' && s[i] != '%' && !isdigit(s[i])) {
 			s[i] = tolower(s[i]);
             aux += s[i];
 		}
@@ -197,8 +234,74 @@ List *sw10, List *sw11, List *sw12, List *sw13) {
 	Block *tmp;
 	tmp = doc -> first -> prox;
 	tmp -> cont.total_words = cont;
-	LImprime(doc);
-}	
+	// LImprime(doc);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+bool verify_if_word_exist(List *wordcount, string word) {
+	Block *aux;
+
+	aux = wordcount -> first -> prox;
+
+	while (aux != NULL) {
+		if (aux -> single_cont.word == word) {
+			return true;
+		}
+
+		aux = aux -> prox;
+	}
+
+	return false;
+}
+
+void fill_list_with_cont(List *document, List *wordcount) {
+	Block *aux_main_document;
+	string aux_str;
+	Block *tmp;
+	WordCounter aux_insert;
+
+	aux_main_document = document -> first -> prox;
+
+	while (aux_main_document != NULL) {
+		aux_str = aux_main_document -> data.word;	
+		if (verify_if_word_exist(wordcount, aux_str)) {
+			tmp = wordcount -> first -> prox;
+			while (tmp != NULL) {
+				if (tmp -> single_cont.word == aux_main_document -> data.word) {
+					tmp->single_cont.contador++;
+				}
+
+				tmp = tmp -> prox;
+			}
+		} else {
+			aux_insert.word = aux_main_document -> data.word;
+			aux_insert.contador = 1;
+			LInsertWordCounter(wordcount, aux_insert);
+		}
+	
+		aux_main_document = aux_main_document -> prox;
+	}
+}
+
+void sorting_alphabetically(List *doc) {
+	Block *i, *j;
+
+	i = doc -> first -> prox;
+
+	while (i != NULL) {
+		j = i-> prox;
+		while (j != NULL) {
+			if (j -> single_cont.word < i -> single_cont.word) {
+				swap (i, j);
+			}
+
+			j = j -> prox;
+		}
+
+		i = i -> prox;
+	}
+}
 
 void tf_idf() {
 	List sw1, sw2, sw3, sw4, sw5, sw6, sw7, sw8, sw9, sw10, sw11, sw12, sw13;
@@ -228,45 +331,79 @@ void tf_idf() {
 	FLVazia(&document_6);
 
 	// Função para tokenizar todo um documento, também excluindo essas stop words do texto
-	cout << endl << endl << "\t\t\t\tDOCUMENTO 1" << endl << endl;
+	// cout << endl << endl << "\t\t\t\tDOCUMENTO 1" << endl << endl;
 	doc_name = "doc1.txt";
 	filter_documents(&document_1, doc_name, &sw1, &sw2, &sw3, &sw4, &sw5, &sw6, &sw7, &sw8, &sw9, &sw10, &sw11, &sw12, &sw13);
 
-	cout << endl << endl << "primeira palavra: " << document_1.first->prox->data.word << endl;
-	cout << "total de palavras: " << document_1.first->prox->cont.total_words;
+	// cout << endl << endl << "primeira palavra: " << document_1.first->prox->data.word << endl;
+	// cout << "total de palavras: " << document_1.first->prox->cont.total_words;
 
-	cout << endl << endl << "\t\t\t\tDOCUMENTO 2" << endl << endl;
+	// cout << endl << endl << "\t\t\t\tDOCUMENTO 2" << endl << endl;
 	doc_name = "doc2.txt";
 	filter_documents(&document_2, doc_name, &sw1, &sw2, &sw3, &sw4, &sw5, &sw6, &sw7, &sw8, &sw9, &sw10, &sw11, &sw12, &sw13);
 
-	cout << endl << endl << "primeira palavra: " << document_2.first->prox->data.word << endl;
-	cout << "total de palavras: " << document_2.first->prox->cont.total_words;
+	// cout << endl << endl << "primeira palavra: " << document_2.first->prox->data.word << endl;
+	// cout << "total de palavras: " << document_2.first->prox->cont.total_words;
 
-	cout << endl << endl << "\t\t\t\tDOCUMENTO 3" << endl << endl;
+	// cout << endl << endl << "\t\t\t\tDOCUMENTO 3" << endl << endl;
 	doc_name = "doc3.txt";
 	filter_documents(&document_3, doc_name, &sw1, &sw2, &sw3, &sw4, &sw5, &sw6, &sw7, &sw8, &sw9, &sw10, &sw11, &sw12, &sw13);
 
-	cout << endl << endl << "primeira palavra: " << document_3.first->prox->data.word << endl;
-	cout << "total de palavras: " << document_3.first->prox->cont.total_words;
+	// cout << endl << endl << "primeira palavra: " << document_3.first->prox->data.word << endl;
+	// cout << "total de palavras: " << document_3.first->prox->cont.total_words;
 
-	cout << endl << endl << "\t\t\t\tDOCUMENTO 4" << endl << endl;
+	// cout << endl << endl << "\t\t\t\tDOCUMENTO 4" << endl << endl;
 	doc_name = "doc4.txt";
 	filter_documents(&document_4, doc_name, &sw1, &sw2, &sw3, &sw4, &sw5, &sw6, &sw7, &sw8, &sw9, &sw10, &sw11, &sw12, &sw13);
 	
-	cout << endl << endl << "primeira palavra: " << document_4.first->prox->data.word << endl;
-	cout << "total de palavras: " << document_4.first->prox->cont.total_words;
+	// cout << endl << endl << "primeira palavra: " << document_4.first->prox->data.word << endl;
+	// cout << "total de palavras: " << document_4.first->prox->cont.total_words;
 
-	cout << endl << endl << "\t\t\t\tDOCUMENTO 5" << endl << endl;
+	// cout << endl << endl << "\t\t\t\tDOCUMENTO 5" << endl << endl;
 	doc_name = "doc5.txt";
 	filter_documents(&document_5, doc_name, &sw1, &sw2, &sw3, &sw4, &sw5, &sw6, &sw7, &sw8, &sw9, &sw10, &sw11, &sw12, &sw13);
 
-	cout << endl << endl << "primeira palavra: " << document_5.first->prox->data.word << endl;
-	cout << "total de palavras: " << document_5.first->prox->cont.total_words;
+	// cout << endl << endl << "primeira palavra: " << document_5.first->prox->data.word << endl;
+	// cout << "total de palavras: " << document_5.first->prox->cont.total_words;
 
-	cout << endl << endl << "\t\t\t\tDOCUMENTO 6" << endl << endl;
+	// cout << endl << endl << "\t\t\t\tDOCUMENTO 6" << endl << endl;
 	doc_name = "doc6.txt";
 	filter_documents(&document_6, doc_name, &sw1, &sw2, &sw3, &sw4, &sw5, &sw6, &sw7, &sw8, &sw9, &sw10, &sw11, &sw12, &sw13);
 
-	cout << endl << endl << "primeira palavra: " << document_6.first->prox->data.word << endl;
-	cout << "total de palavras: " << document_6.first->prox->cont.total_words;
+	// cout << endl << endl << "primeira palavra: " << document_6.first->prox->data.word << endl;
+	// cout << "total de palavras: " << document_6.first->prox->cont.total_words;
+
+	List wordcounter_doc1, wordcounter_doc2, wordcounter_doc3, wordcounter_doc4, wordcounter_doc5, wordcounter_doc6;
+	FLVazia(&wordcounter_doc1);
+	FLVazia(&wordcounter_doc2);
+	FLVazia(&wordcounter_doc3);
+	FLVazia(&wordcounter_doc4);
+	FLVazia(&wordcounter_doc5);
+	FLVazia(&wordcounter_doc6);
+
+	fill_list_with_cont(&document_1, &wordcounter_doc1);
+	sorting_alphabetically(&wordcounter_doc1);
+
+	fill_list_with_cont(&document_2, &wordcounter_doc2);
+	sorting_alphabetically(&wordcounter_doc2);
+
+	fill_list_with_cont(&document_3, &wordcounter_doc3);
+	sorting_alphabetically(&wordcounter_doc3);
+
+	fill_list_with_cont(&document_4, &wordcounter_doc4);
+	sorting_alphabetically(&wordcounter_doc4);
+
+	LImprimeWordCounter(&wordcounter_doc4);
+
+	fill_list_with_cont(&document_5, &wordcounter_doc5);
+	sorting_alphabetically(&wordcounter_doc5);
+
+	fill_list_with_cont(&document_6, &wordcounter_doc6);
+	sorting_alphabetically(&wordcounter_doc6);
+
+	/////////////////////////
+	//  				   //
+	//  REALIZANDO TESTES  //
+	//                     //
+	/////////////////////////
 }

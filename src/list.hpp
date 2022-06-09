@@ -13,6 +13,7 @@ typedef struct Item Item;
 typedef struct Block Block;
 typedef struct List List;
 typedef struct Contador Contador;
+typedef struct WordCounter WordCounter;
 
 struct Item{
 	string word;
@@ -22,9 +23,15 @@ struct Contador {
 	int total_words;
 };
 
+struct WordCounter {
+	string word;
+	int contador;
+};
+
 struct Block{
 	Item data;
 	Contador cont;
+	WordCounter single_cont;
 	Block *prox;
 };
 
