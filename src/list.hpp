@@ -7,6 +7,7 @@
 #include <fstream>
 #include <string>
 #include <locale>
+#include <vector>
 using namespace std;
 
 typedef struct Item Item;
@@ -14,6 +15,7 @@ typedef struct Block Block;
 typedef struct List List;
 typedef struct Contador Contador;
 typedef struct WordCounter WordCounter;
+typedef struct ContWordSeen ContWordSeen;
 
 struct Item{
 	string word;
@@ -28,10 +30,16 @@ struct WordCounter {
 	int contador;
 };
 
+struct ContWordSeen {
+	string word;
+	int contador = 0;
+};
+
 struct Block{
 	Item data;
 	Contador cont;
 	WordCounter single_cont;
+	ContWordSeen cont_all_documents;
 	Block *prox;
 };
 

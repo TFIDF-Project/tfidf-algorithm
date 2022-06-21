@@ -9,10 +9,6 @@ void Swap(Block *a, Block *b){
 	
 }
 
-// aux = i ->single_cont;
-// i -> single_cont = j->single_cont;
-// j -> single_cont = aux;
-
 void swap(Block *a, Block *b) {
 	WordCounter aux;
 	aux = a -> single_cont;
@@ -46,6 +42,12 @@ void LInsertWordCounter(List *l, WordCounter d){
 	l -> last-> single_cont = d;
 	l -> last -> prox = NULL;
 }
+
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+/////////////////////////////////////////////////////////////////////////////
 
 void LImprimeWordCounter(List *l){
 	Block *aux;
@@ -177,6 +179,34 @@ void check_if_stopword(List *main_doc, List *sw, Item aux) {
 	LInsert(main_doc, aux);
 }
 
+// MUDANDO AQUI
+
+void LInsertContWordSeen(List *l, ContWordSeen d){
+	l -> last -> prox = new Block;
+	l -> last = l -> last -> prox;
+	l -> last -> cont_all_documents = d;
+	l -> last -> prox = NULL;
+}
+
+void check_if_stopword_final_cont(List *main_doc, List *sw, ContWordSeen aux) {
+	Block *aux_block;
+
+	aux_block = sw->first->prox;
+
+	while (aux_block != NULL) {
+		if (aux.word == aux_block -> data.word) {
+			return;
+		}
+
+		aux_block = aux_block -> prox;
+	}
+
+	// aux.contador = 0;
+	LInsertContWordSeen(main_doc, aux);
+}
+
+// FINALIZADO AS MUDANÇAS
+
 void filter_documents(List *doc, string doc_name, List *sw1, List *sw2, List *sw3, List *sw4, List *sw5, List *sw6, List *sw7, List *sw8, List *sw9, 
 List *sw10, List *sw11, List *sw12, List *sw13) {
 	ifstream myfile;
@@ -234,7 +264,6 @@ List *sw10, List *sw11, List *sw12, List *sw13) {
 	Block *tmp;
 	tmp = doc -> first -> prox;
 	tmp -> cont.total_words = cont;
-	// LImprime(doc);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -303,6 +332,269 @@ void sorting_alphabetically(List *doc) {
 	}
 }
 
+//////////////////////////////////////// LEITURA DE TEXTO ////////////////////////////////////////
+
+void read_phrase(List *doc, string doc_name, List *sw1, List *sw2, List *sw3, List *sw4, List *sw5, List *sw6, List *sw7, List *sw8, List *sw9, 
+List *sw10, List *sw11, List *sw12, List *sw13) {
+	ifstream myfile;
+	string line, auxiliar, auxiliar_2, delimiter = " ";
+	ContWordSeen aux;
+	size_t pos = 0;
+	myfile.open(doc_name);
+
+	if (myfile.is_open()) {
+		while(!myfile.eof()) {
+			getline(myfile, line);
+			aux.word = line;
+			while ((pos = line.find(delimiter)) != string::npos) {
+				aux.word = (line.substr(0, pos));
+				line.erase(0, pos + delimiter.size());
+				auxiliar = aux.word;
+				auxiliar_2 = string_treatment(auxiliar);
+				aux.word = auxiliar_2;
+
+				if (aux.word.size() == 1) {
+					check_if_stopword_final_cont(doc, sw1, aux);
+				} else if (aux.word.size() == 2) {
+					check_if_stopword_final_cont(doc, sw2, aux);
+				} else if (aux.word.size() == 3) {
+					check_if_stopword_final_cont(doc, sw3, aux);
+				} else if (aux.word.size() == 4) {
+					check_if_stopword_final_cont(doc, sw4, aux);
+				} else if (aux.word.size() == 5) {
+					check_if_stopword_final_cont(doc, sw5, aux);
+				} else if (aux.word.size() == 6) {
+					check_if_stopword_final_cont(doc, sw6, aux);
+				} else if (aux.word.size() == 7) {
+					check_if_stopword_final_cont(doc, sw7, aux);
+				} else if (aux.word.size() == 8) {
+					check_if_stopword_final_cont(doc, sw8, aux);
+				} else if (aux.word.size() == 9) {
+					check_if_stopword_final_cont(doc, sw9, aux);
+				} else if (aux.word.size() == 10) {
+					check_if_stopword_final_cont(doc, sw10, aux);
+				} else if (aux.word.size() == 11) {
+					check_if_stopword_final_cont(doc, sw11, aux);
+				} else if (aux.word.size() == 12) {
+					check_if_stopword_final_cont(doc, sw12, aux);
+				} else if (aux.word.size() == 13) {
+					check_if_stopword_final_cont(doc, sw13, aux);
+				}
+			}
+		}
+	} else {
+		cout << "nao abriu";
+	}
+
+}
+
+//////////////////////////////////////// LEITURA DE TEXTO ////////////////////////////////////////
+
+void verify_how_many_times_seen(List *input, List *document) {
+	Block *aux_input, *aux_document;
+
+	aux_input = input->first->prox;
+	
+	while (aux_input != NULL) {
+		aux_document = document->first->prox;
+		while (aux_document != NULL) {
+			if (aux_document->data.word == aux_input->cont_all_documents.word) {
+				aux_input->cont_all_documents.contador++;
+				aux_document = document -> last;
+			}
+
+			aux_document = aux_document -> prox;
+		}
+
+		aux_input = aux_input -> prox;
+	}
+}
+
+void print(List *input) {
+	Block *aux;
+
+	aux = input->first->prox;
+
+	while (aux != NULL) {
+		cout << "PALAVRA: " << aux->cont_all_documents.word << "\t\tCONTADOR: " << aux->cont_all_documents.contador << endl << endl;
+		aux = aux -> prox;
+	}
+}
+
+// SE DER MERDA, COMECOU A DAR AQUI
+
+// void tf_calc() {
+
+// }
+
+// void tf_idf_calc(List *input/*, List *wordcounter, List *document*/) {
+// 	Block *aux_input;
+// 	aux_input = input -> first -> prox;
+// 	// float idf;
+// 	// int i;
+// 	// int final_tf_idf[6];
+
+// 	while (aux_input != NULL) {
+// 		if (aux_input->cont_all_documents.contador != 0) {
+// 			// idf = log10(6 / aux_input->cont_all_documents.contador);
+// 			// cout << idf << endl;
+
+// 			for (int j = 0; j < 6; j++) {
+				
+// 			}
+
+
+// 		} else {
+// 			// idf = 0;
+// 		}
+
+// 		//final_tf_idf[i] = idf*tf;
+
+// 		aux_input = aux_input -> prox;
+// 		// i++;
+// 	}
+// }
+
+int find_word_cont(List *wordcounter, string to_find) {
+	Block *aux;
+	aux = wordcounter->first->prox;
+
+	while (aux != NULL) {
+		// cout << "STRING: " << to_find << "\tNA LISTA: " << aux->cont_all_documents.word << "\tCONTADOR: " << aux->cont_all_documents.contador << endl; 
+		
+		if (aux->single_cont.word == to_find) {
+			// cout << "\n\n\nihdfisdhgfosdghsopdighbsdiugbsduigbsdgbsdg" << endl << endl << endl;
+			return aux->single_cont.contador;
+		}
+		
+		aux = aux -> prox;
+	}
+
+	return 0;
+}
+
+void tf_idf_calc(List *input, List *wordcounter_doc1, List *wordcounter_doc2, List *wordcounter_doc3, List *wordcounter_doc4, List *wordcounter_doc5, List *wordcounter_doc6,
+List *document_1, List *document_2, List *document_3, List *document_4, List *document_5, List *document_6) {
+	Block *aux_input;
+	float idf, tf, final_tfidf[6];
+	int i, occurrences, total;
+	aux_input = input->first->prox;
+	vector <string> ranking;
+
+	ranking.push_back("1st Document");
+	ranking.push_back("2nd Document");
+	ranking.push_back("3rd Document");
+	ranking.push_back("4th Document");
+	ranking.push_back("5th Document");
+	ranking.push_back("6th Document");
+
+
+	for (i = 0; i < 6; i++) {
+		final_tfidf[i] = 0;
+	}
+
+	while (aux_input != NULL) {
+		i = 0;
+		// cout << aux_input->cont_all_documents.word; // para encontrar a palavra cont_all_documents.word
+		// cout << aux_input->cont_all_documents.contador; // para encontrar o contador da determinada palavra em todos os documentos cont_all_documents.contador
+
+		// pegar a palavra atual e realizar o idf PARA A PALAVRA
+		if (aux_input -> cont_all_documents.contador != 0) {
+			idf = log10(6 / aux_input->cont_all_documents.contador);
+		} else {
+			idf = 0;
+		}
+	
+		// cout << "\t\tIDF: " << idf << endl;
+			
+		// agora que calculei o IDF para uma palavra especifica, vou calcular o tf para essa palavra e logo em seguida o tfidf da palavra no documento, salvando em um vetor 
+
+		occurrences = find_word_cont(wordcounter_doc1, aux_input->cont_all_documents.word);
+		total = document_1 ->first->prox->cont.total_words;
+		if (occurrences == 0) {
+			tf = 0;
+		} else {
+			tf = (float)occurrences / (float)total;
+		}
+		final_tfidf[i] += (tf*idf);
+		i++;
+
+		// cout << "Palavra: " << aux_input->cont_all_documents.word << "\t\t\t\tAparições: " << aux_input->cont_all_documents.contador;
+		// cout << "\t\t\t\tTF palavra: " << tf << "\t\t\t\tIDF palavra: " << idf << endl;; 
+
+		occurrences = find_word_cont(wordcounter_doc2, aux_input->cont_all_documents.word);
+		total = document_2 ->first->prox->cont.total_words;
+		if (occurrences == 0) {
+			tf = 0;
+		} else {
+			tf = (float)occurrences / (float)total;
+		}
+		final_tfidf[i] += (tf*idf);
+		i++;
+
+		occurrences = find_word_cont(wordcounter_doc3, aux_input->cont_all_documents.word);
+		total = document_3 ->first->prox->cont.total_words;
+		if (occurrences == 0) {
+			tf = 0;
+		} else {
+			tf = (float)occurrences / (float)total;
+		}
+		final_tfidf[i] += (tf*idf);
+		i++;
+
+		occurrences = find_word_cont(wordcounter_doc4, aux_input->cont_all_documents.word);
+		total = document_4 ->first->prox->cont.total_words;
+		if (occurrences == 0) {
+			tf = 0;
+		} else {
+			tf = (float)occurrences / (float)total;
+		}
+		final_tfidf[i] += (tf*idf);
+		i++;
+
+		occurrences = find_word_cont(wordcounter_doc5, aux_input->cont_all_documents.word);
+		total = document_5 ->first->prox->cont.total_words;
+		if (occurrences == 0) {
+			tf = 0;
+		} else {
+			tf = (float)occurrences / (float)total;
+		}
+		final_tfidf[i] += (tf*idf);
+		i++;
+
+		occurrences = find_word_cont(wordcounter_doc6, aux_input->cont_all_documents.word);
+		total = document_6 ->first->prox->cont.total_words;
+		if (occurrences == 0) {
+			tf = 0;
+		} else {
+			tf = (float)occurrences / (float)total;
+		}
+		final_tfidf[i] += (tf*idf);
+		i++;
+
+		aux_input = aux_input -> prox;
+	}
+
+	string aux;
+	float auxiliar;
+
+	for (i = 0; i < 6; i++) {
+		for (int j = i + 1; j < 6; j++) {
+			if (final_tfidf[i] < final_tfidf[j]) {
+				auxiliar = final_tfidf[i]; aux = ranking[i];
+				final_tfidf[i] = final_tfidf[j]; ranking[i] = ranking[j];
+				final_tfidf[j] = auxiliar; ranking[j] = aux;
+			}
+		}
+	}
+
+	cout << endl << endl;
+	for (i = 0; i < 6; i++) {
+		// cout << "TF/IDF documento " << i + 1 << ": " << final_tfidf[i] << endl;
+		cout << ranking[i] << endl; 
+	}
+}
+
 void tf_idf() {
 	List sw1, sw2, sw3, sw4, sw5, sw6, sw7, sw8, sw9, sw10, sw11, sw12, sw13;
     FLVazia(&sw1);
@@ -321,6 +613,12 @@ void tf_idf() {
 	
 	filter_stop_words(&sw1, &sw2, &sw3, &sw4, &sw5, &sw6, &sw7, &sw8, &sw9, &sw10, &sw11, &sw12, &sw13);
 
+	List input;
+	FLVazia(&input);
+	read_phrase(&input, "phrasetosearch.txt", &sw1, &sw2, &sw3, &sw4, &sw5, &sw6, &sw7, &sw8, &sw9, &sw10, &sw11, &sw12, &sw13);
+
+	LImprime(&input);
+
 	List document_1, document_2, document_3, document_4, document_5, document_6;
 	string doc_name;
 	FLVazia(&document_1);
@@ -331,6 +629,7 @@ void tf_idf() {
 	FLVazia(&document_6);
 
 	// Função para tokenizar todo um documento, também excluindo essas stop words do texto
+
 	// cout << endl << endl << "\t\t\t\tDOCUMENTO 1" << endl << endl;
 	doc_name = "doc1.txt";
 	filter_documents(&document_1, doc_name, &sw1, &sw2, &sw3, &sw4, &sw5, &sw6, &sw7, &sw8, &sw9, &sw10, &sw11, &sw12, &sw13);
@@ -383,6 +682,8 @@ void tf_idf() {
 
 	fill_list_with_cont(&document_1, &wordcounter_doc1);
 	sorting_alphabetically(&wordcounter_doc1);
+	// LImprimeWordCounter(&wordcounter_doc1);
+	// cout << endl << endl;
 
 	fill_list_with_cont(&document_2, &wordcounter_doc2);
 	sorting_alphabetically(&wordcounter_doc2);
@@ -393,17 +694,141 @@ void tf_idf() {
 	fill_list_with_cont(&document_4, &wordcounter_doc4);
 	sorting_alphabetically(&wordcounter_doc4);
 
-	LImprimeWordCounter(&wordcounter_doc4);
-
 	fill_list_with_cont(&document_5, &wordcounter_doc5);
 	sorting_alphabetically(&wordcounter_doc5);
 
 	fill_list_with_cont(&document_6, &wordcounter_doc6);
 	sorting_alphabetically(&wordcounter_doc6);
 
-	/////////////////////////
-	//  				   //
-	//  REALIZANDO TESTES  //
-	//                     //
-	/////////////////////////
+	/////////////////////////////////////
+	//  				   			   //
+	//  REALIZANDO TESTES - QUICKSORT  //
+	//                     			   //
+	/////////////////////////////////////
+
+	// Block *aux_input, *aux_document;
+
+	// aux_input = input.first->prox;
+	// aux_document = document_1.first->prox;
+
+	// string word;
+
+	// while (aux_input != NULL) {
+	// 	aux_document = document_1.first->prox;
+	// 	while (aux_document != NULL) {
+	// 		if (aux_document->data.word == aux_input->cont_all_documents.word) {
+	// 			aux_input->cont_all_documents.contador++;
+	// 			break;
+	// 		}
+
+	// 		aux_document = aux_document -> prox;
+	// 	}
+	// 	cout << "PALAVRA: " << aux_input->cont_all_documents.word << endl;
+	// 	cout << "CONTADOR DA PALAVRA DIGITADA NO DOCUMENTO 1: " << aux_input->cont_all_documents.contador << endl << endl;
+
+	// 	aux_input = aux_input -> prox;
+	// }
+
+	verify_how_many_times_seen(&input, &document_1);
+	print(&input);
+
+	cout << endl << endl;
+	verify_how_many_times_seen(&input, &document_2);
+	print(&input);
+
+	cout << endl << endl;
+	verify_how_many_times_seen(&input, &document_3);
+	print(&input);
+
+	cout << endl << endl;
+	verify_how_many_times_seen(&input, &document_4);
+	print(&input);
+
+	cout << endl << endl;
+	verify_how_many_times_seen(&input, &document_5);
+	print(&input);
+
+	cout << endl << endl;
+	verify_how_many_times_seen(&input, &document_6);
+	print(&input);
+
+	// SE DER MERDA, COMECOU A DAR AQUI
+
+		// idf - tf
+
+			// número total de documentos - 6
+			// total de documentos em que o termo apareceu
+
+				// para visualizar o total de documentos em que a palavra apareceu:
+					// abrir a lista input, procurar a palavra desejada, visualizar o .contador (ContWordSeen)
+					// realizar o cálculo para a palavra desejada
+					// log(6 / .contador)
+					// finalizado o calculo do idf.
+
+				// para visualizar o total de vezes que a palavra apareceu
+					// abrir a lista wordcounter, procurar a palavra desejada, visualizar o .contador (ContWordSeen) -> número de aparições de X palavra
+					// abrir a lista document, visualizar a posição first->prox.total_words -> total de palavras no documento.
+					// total_de_aparições / total_de_palavras
+					// finalizado o cáculo do tf.
+
+			// multiplicar tf x idf;
+			// aumentar no somatório total do documento.
+			// jogar em um vetor ao finalizar todo o somatório.
+
+	tf_idf_calc(&input, &wordcounter_doc1, &wordcounter_doc2, &wordcounter_doc3, &wordcounter_doc4, &wordcounter_doc5, &wordcounter_doc6,
+	&document_1, &document_2, &document_3, &document_4, &document_5, &document_6);
 }
+
+// int find_word_cont(List *wordcounter, string to_find) {
+// 	Block *aux;
+// 	aux = wordcounter->first->prox;
+
+// 	while (aux != NULL) {
+// 		if (aux->cont_all_documents.word == to_find) {
+// 			return aux->cont_all_documents.contador;
+// 		}
+
+// 		aux = aux -> prox;
+// 	}
+
+// 	return 0;
+// }
+
+
+
+
+// para visualizar o total de vezes que a palavra apareceu
+		// abrir a lista wordcounter, procurar a palavra desejada, visualizar o .contador (ContWordSeen) -> número de aparições de X palavra
+		// abrir a lista document, visualizar a posição first->prox.total_words -> total de palavras no documento.
+		// total_de_aparições / total_de_palavras
+		// finalizado o cáculo do tf.
+
+
+/*
+	PARA O CÁLCULO
+		W = numero de vezes que o termo aparece no documento - FEITO
+			O número total de palavras no documento está na primeira posição das listas nomeadas de "document"
+				Para verificar: cout << document_x.first->prox->cont.total_words;
+		X = numero de palavras no documento - FEITO
+		Y = numero de documentos que o termo apareceu 
+			Criar função para encontrar o termo, se ele aparecer, return true, se não, return false.
+		Z = numero total de documentos - 6
+
+	6 DOCUMENTOS - 
+	PALAVRA X
+	DOC 1 - 6
+	DOC 2 - 4
+	DOC 3 - 0
+	.
+	.
+	.
+
+	VETOR -> PALAVRA
+		VETOR (6 POSIÇÕES) -> QUANTAS VEZES CADA PALAVRA APARECEU
+*/
+
+
+
+
+
+
