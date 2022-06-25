@@ -6,9 +6,7 @@
 #include <cmath>
 #include <fstream>
 #include <string>
-#include <locale>
 #include <vector>
-using namespace std;
 
 typedef struct Item Item;
 typedef struct Block Block;
@@ -18,7 +16,7 @@ typedef struct WordCounter WordCounter;
 typedef struct ContWordSeen ContWordSeen;
 
 struct Item{
-	string word;
+	std::string word;
 };
 
 struct Contador {
@@ -26,12 +24,12 @@ struct Contador {
 };
 
 struct WordCounter {
-	string word;
+	std::string word;
 	int contador;
 };
 
 struct ContWordSeen {
-	string word;
+	std::string word;
 	int contador = 0;
 };
 
@@ -50,25 +48,24 @@ struct List{
 
 void FLVazia(List *l);
 void LInsert(List *l, Item d);
-void LRemove(List *l, Item d);
-void Swap(Block *a, Block *b);
-void LImprime(List *l);
-
-// Função para tratar caractesres especias de uma string e torná-la inteira minúscula
-string string_treatment(string s);
-
-// Função para ler o arquivo de stop words e organizá-lo de acordo com a quantidade de caracteres
+void LInsertCont(List *l, Contador d);
+void LInsertWordCounter(List *l, WordCounter d);
+std::string string_treatment(std::string s);
 void filter_stop_words(List *sw1, List *sw2, List *sw3, List *sw4, List *sw5, List *sw6, List *sw7, List *sw8, List *sw9, List *sw10, List *sw11,
 List *sw12, List *sw13);
-
-// Função que checará se a palavra do documento é uma stop word, caso não seja, irá inseri-la
 void check_if_stopword(List *main_doc, List *sw, Item aux);
-
-// Função a qual tokenizará qualquer um dos documentos dados
-void filter_documents(List *doc, string doc_name, List *sw1, List *sw2, List *sw3, List *sw4, List *sw5, List *sw6, List *sw7, List *sw8, List *sw9, 
+void LInsertContWordSeen(List *l, ContWordSeen d);
+void check_if_stopword_final_cont(List *main_doc, List *sw, ContWordSeen aux);
+void filter_documents(List *doc, std::string doc_name, List *sw1, List *sw2, List *sw3, List *sw4, List *sw5, List *sw6, List *sw7, List *sw8, List *sw9, 
 List *sw10, List *sw11, List *sw12, List *sw13);
-
-// Função na qual se encontrará toda a resolução do TF/IDF
+bool verify_if_word_exist(List *wordcount, std::string word);
+void fill_list_with_cont(List *document, List *wordcount);
+void read_phrase(List *doc, std::string doc_name, List *sw1, List *sw2, List *sw3, List *sw4, List *sw5, List *sw6, List *sw7, List *sw8, List *sw9, 
+List *sw10, List *sw11, List *sw12, List *sw13);
+void verify_how_many_times_seen(List *input, List *document);
+int find_word_cont(List *wordcounter, std::string to_find);
+void tf_idf_calc(List *input, List *wordcounter_doc1, List *wordcounter_doc2, List *wordcounter_doc3, List *wordcounter_doc4, List *wordcounter_doc5, List *wordcounter_doc6,
+List *document_1, List *document_2, List *document_3, List *document_4, List *document_5, List *document_6);
 void tf_idf();
 
 #endif

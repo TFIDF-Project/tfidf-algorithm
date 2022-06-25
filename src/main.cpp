@@ -1,9 +1,10 @@
 #include "list.hpp"
-using namespace std;
 
 int main () {
     size_t t;
     t = clock();
     tf_idf();
     t = clock() - t;
+
+    std::cout << "\nTempo total: " << float(t)/CLOCKS_PER_SEC << std::endl << std::endl;
 }
