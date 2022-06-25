@@ -279,58 +279,96 @@ O algoritmo TF-IDF construido pelo grupo é composto por um total de 17 funçõe
 ---
 
 <p align="center">
- <a href="#função-tfidf">Função "tf_idf"</a> ••
- <a href="#função-readphrase">Função "read_phrase"</a> ••
- <a href="#função-checkifstopwordfinalcont">Função "check_if_stopword_final_cont"</a> ••
- <a href="#função-filterdocuments">Função "filter_documents"</a> •• 
- <a href="#função-stringtreatment">Função "string_treatment"</a> ••
- <a href="#função-checkifstopword">Função "check_if_stopword"</a> •• 
- <a href="#função-filllistwithcont">Função "fill_list_with_cont"</a> ••
- <a href="#função-verifyifwordexist">Função "verify_if_word_exist"</a> ••
- <a href="#função-verifyhowmanytimesseen">Função "verify_how_many_times_seen"</a> ••
- <a href="#função-tfidfcalc">Função "tf_idf_calc"</a> ••
- <a href="#função-findwordcont">Função "find_word_cont"</a> ••
+ <a href="#•função-tfidf">Função "tf_idf"</a> |
+ <a href="#•função-readphrase">Função "read_phrase"</a> |
+ <a href="#•função-checkifstopwordfinalcont">Função "check_if_stopword_final_cont"</a> |
+ <a href="#•função-filterdocuments">Função "filter_documents"</a> | 
+ <a href="#•função-stringtreatment">Função "string_treatment"</a> |
+ <a href="#•função-checkifstopword">Função "check_if_stopword"</a> | 
+ <a href="#•função-filllistwithcont">Função "fill_list_with_cont"</a> |
+ <a href="#•função-verifyifwordexist">Função "verify_if_word_exist"</a> |
+ <a href="#•função-verifyhowmanytimesseen">Função "verify_how_many_times_seen"</a> |
+ <a href="#•função-tfidfcalc">Função "tf_idf_calc"</a> |
+ <a href="#•função-findwordcont">Função "find_word_cont"</a>
 </p>
 
 ---
 
-### Função **_tf_idf_**
+### •Função **_tf_idf_**
 //Explicação João Marcelo
 
-### Função **_read_phrase_**
+### •Função **_read_phrase_**
 //Explicação Caio
 
-### Função **_check_if_stopword_final_cont_**
+### •Função **_check_if_stopword_final_cont_**
 //Explicação Caio
 
-### Função **_filter_documents_**
+### •Função **_filter_documents_**
 //Explicação João Marcelo
 
-### Função **_string_treatment_**
+### •Função **_string_treatment_**
 //Explicação Caio
 
-### Função **_check_if_stopword_**
+### •Função **_check_if_stopword_**
 //Explicação Caio
 
-### Função **_fill_list_with_cont_**
+### •Função **_fill_list_with_cont_**
 
-Essa função introduz a primeira parte do ranqueamento dos documentos onde a mesma recebe como parâmetro duas listas, a lista em que contém a filtragem do documento e uma outra lista vazia que vai ser preenchida com uma string e um contador (possuindo esses itens em seu bloco) como na representação abaixo:
+Essa função introduz a primeira parte do ranqueamento dos documentos, fazendo com que seja contado, com um contador **cont** dentro da função, a quantidade de vezes em que as palavras vão aparecer naquele documento. A função recebe como parâmetro duas listas, a lista em que contém a filtragem do documento em que vai ser feita o ranqueamento das palavras e uma outra lista vazia que vai ser preenchida dentro da função com a lista `WordCounter` como na representação abaixo:
 
+```c++
+	void fill_list_with_cont(List *document, List *wordcount);
+```
+_Representação 1: chamada da função _fill_list_with_cont__
 
+Após ser feita a chamada da função ela inicia com a chamada da lista `WordCounter` que possui em seu bloco uma string e um contador onde vai auxiliar o ranqueamento das palavras com a quantidade de vezes em que ela apareceu nesse contador, com isso vai ser iniciado uma estrutura de repetição __*while*__ em que vai ser repetida enquanto o documento principal não terminar e dentro dessa estrutura uma variável auxiliar de string **aux_str** vai receber palavra por palavra desse documento a cada vez que a estrutura for repetida fazendo a verificação com uma estrutura de decisão `IF` verificando caso palavra não exista com a função <a href="#•função-verifyifwordexist">_verify_if_word_exist_</a> (explicada melhor no tópico abaixo), se não existir o programa vai entrar nessa estrutura e adicionar essa palavra que não existe na lista `WordCounter` com seu contador recebendo o número 1 de acordo com a representação abaixo:
 
-//Explicação Louback
+```c++
+	if (!verify_if_word_exist(wordcount, aux_str)) {
+		aux_insert.word = aux_main_document->data.word;
+		aux_insert.contador = 1;
+		LInsertWordCounter(wordcount, aux_insert);
+	}
+```
+_Representação 2: inserção da palavra não existente na lista WordCounter_
 
-### Função **_verify_if_word_exist_**
-//Explicação Louback
+Ao sair dessa estrutura de decisão a váriavel **cont** vai acrescentar mais uma unidade em seu valor para que no final seja contabilizada a quantidade de palavras em que vai aparecer no documento analisado pela função adicionando esse valor ao bloco `Contador`.
 
-### Função **_verify_how_many_times_seen_**
-//Explicação Louback
+### •Função **_verify_if_word_exist_**
 
-### Função **_tf_idf_calc_**
+Essa função tem como objetivo apenas de ser utilizada na estrutura de decisão `IF` função <a href="#•função-filllistwithcont">_fill_list_with_cont_</a> como verificação de existencia da palavra passada como parâmetro (**aux_str**) em conjunto com uma lista de palavras com um contador (**wordcount**)como na representação abaixo:
+```c++
+	bool verify_if_word_exist(List *wordcount, string word);
+```
+_Representação 1: chamada da função _verify_if_word_exist__
+
+Dentro dessa função vai ser chamado um bloco auxiliar ***aux** que vai receber a primeira posição da lista `wordcount` para que seja possível percorre-la inteira dentro da estrutura de repetição __<i>while</i>__ até o final onde a cada posição percorrida vai ser feita uma verificação com a estrutura de decisão `IF` se a palavra passada como parâmetro já está dentro da lista, caso não estiver a função vai retornar o tipo booleano <b>false</b>, caso possua a palavra dentro da lista `wordcount` será acrescentando mais uma unidade no valor da váriavel <b>contador</b> do bloco daquela palavra possibilitando então o ranqueamento de palavras dentro do documento pois com isso será possível verificar a quantidade de vezes em que as palavras estão dentro dos documentos que vão ser feito o ranqueamento, retornando então no final o tipo booleano <b>true</b>.
+
+### •Função **_verify_how_many_times_seen_**
+
+Essa função foi construida com objetivo de verificar quantas vezes uma palavra pertencente a pesquisa do usuário aparece no documento passado como parâmetro (**document_x**) recebendo também a lista que contém as palavras da pesquisa como parâmetro (lista **input**) como na representação a seguir
+
+```c++
+	void verify_how_many_times_seen(List *input, List *document);
+```
+_Representação 1: chamada da função _verify_how_many_times_seen__
+
+A função começa com a declaração de dois blocos auxiliares das listas sendo eles <b>*aux_input</b> e <b>*aux_document</b> onde apartir disso vai ser chamado duas estruturas de repetição `WHILE`, uma que vai percorrer a lista **input** com a ajuda do bloco auxiliar e outra que vai percorrer a lista **document** até o final e a cada posição percorrida vai ser feita a verificação, com uma estrutura de decisão `IF`, se a palavra pertencente a posição da lista **document**, ou seja, do documento de busca é igual a palavra da posição do documento que possui a pesquisa do usuário. Caso essa verificação prossiga vai ser acrescentado mais uma unidade no valor do contador possuente do bloco da pesquisa do usuário e após isso é colocada a posição do **aux_document** (váriavel que ajuda a percorrer a lista) no final da lista para que seja possível começar uma outra verificação de outra posição da lista **input** até o final dessa lista. 
+
+### •Função **_tf_idf_calc_**
 //Explicação João Marcelo
 
-### Função **_find_word_cont_**
-//Explicação Louback
+### •Função **_find_word_cont_**
+
+A função _find__cont_ foi construída pensando no auxilio do cálculo `TF-IDF` onde ela retorna um tipo **int** sendo o número de ocorrências presente na função <a href="#•função-tfidfcalc">_tf_idf_calc_</a>, que obtido com base nos parâmetros passados na chamada da função que consiste em uma lista com as palavras contadas de determinado documento (**wordcounter_doc1**) e em string que é passada a partir do bloco da lista **input** (lista que possui a pesquisa do usuário) como é possível ver na representação abaixo:
+
+```c++
+	int find_word_cont(List *wordcounter, std::string to_find);
+```
+_Representação 1: chamada da função _find_word_cont__
+
+Após ser feita essa chamada a função introduzirá declarando um bloco auxiliar <b>*aux</b> onde vai receber a primeira posição da lista que contém as palavras contados do documento passado como parâmetro (lista **wordcounter_docx**) e através de uma estrutura de repetição `WHILE` vai percorrer essa lista até o final e a cada posição percorrida vai ser feita uma verificação apartir de uma estrutura de decisão `IF` verificando se a string presente em determinada posição da lista percorrida é igual a string passada como parâmetro e caso essa verificação seja verdadeira a função irá retornar o contador da string da lista **wordcounter_docx**, visto que isso vai auxiliar no cálculo como citado anteriormente pois ao retornar para a função <a href="#•função-tfidfcalc">_tf_idf_calc_</a> esse contador, vai ser possível ser feito os cálculos com os valores obtidos de quantas vezes a palavra presente na pesquisa apareceu em determinado documento.
+
 
 ---
 
