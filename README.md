@@ -308,19 +308,99 @@ O algoritmo TF-IDF construído pelo grupo é composto por um total de 17 funçõ
 //Explicação João Marcelo
 
 ### •Função **_read_phrase_**
-//Explicação Caio
+
+A função `read_phrase` recebe **phrasetosearch.txt**, um documento onde está a frase e/ou palavra de pesquisa do usuário. Lendo esse documento e chamando outras funções para tratá-lo, retirando stopwords e caracteres especiais com a ajuda de outras funções. Por fim, o documento de pesquisa está tratado somente com palavras que possui relevância facilitanto assim o cálculo do tfidf.
+
+```c++
+	read_phrase(&input, "phrasetosearch.txt", &sw1, &sw2, &sw3, &sw4, &sw5, &sw6, &sw7, &sw8, &sw9, &sw10, &sw11, &sw12, &sw13);
+```
+_Representação 1: chamada da função read_phrase_
 
 ### •Função **_check_if_stopword_final_cont_**
-//Explicação Caio
+
+Assim como a função `check_if_stopword`, essa função verefica se as palavras são stopwords recebendo como parâmetro uma lista com stopwords, entretanto essa função tem um contador para a quantidade de vezes que cada palavra aparece fazendo com que dessa forma, não hajam palavras replicadas.
+
+```c++
+void check_if_stopword_final_cont(List *main_doc, List *sw, ContWordSeen aux) {
+	Block *aux_block;
+
+	aux_block = sw->first->prox;
+
+	while (aux_block != NULL) {
+		if (aux.word == aux_block -> data.word) {
+			return;
+		}
+
+		aux_block = aux_block -> prox;
+	}
+
+	LInsertContWordSeen(main_doc, aux);
+}
+```
+_Representação 1: implementação da função check_if_stopword_final_cont_
+
+```c++
+	check_if_stopword_final_cont(doc, sw1, aux);
+```
+_Representação 2: chamada da função para a lista de stopwords de um único caracter_
 
 ### •Função **_filter_documents_**
 //Explicação João Marcelo
 
 ### •Função **_string_treatment_**
-//Explicação Caio
+
+A função `string_treatment` retira caracteres indesejados em string como pontos de acentuação, números e também deixando todas as letra em minúsculo. Esssa função recebe como parâmetro uma string que retorna a mesam tratada facilitando assim a pesquisa nos documentos.
+
+```c++
+	std::string string_treatment(std::string s) {
+	int size = s.size();
+	std::string aux;
+
+	for (int i = 0; i < size; i++) {
+		if (s[i] != '.' && s[i]!= ',' && s[i] != ':' && s[i] != ';' && s[i] != '?' && s[i] != '!' && s[i] != '(' && s[i] != ')' && s[i] != '[' && s[i] != ']' && s[i] != '{'
+			&& s[i] != '}' && s[i] != '+'&& s[i] != '=' && s[i] != '-' && s[i] != '*' && s[i] != '/' && s[i] != '%' && !isdigit(s[i])) {
+			s[i] = tolower(s[i]);
+            aux += s[i];
+		}
+	}
+ 
+	return aux;
+}
+```
+_Representação 1: implementação da função string_treatment_
+
+```c++
+	auxiliar_2 = string_treatment(auxiliar);
+```
+_Representação 2: chamada da função string_treatment_
 
 ### •Função **_check_if_stopword_**
-//Explicação Caio
+
+Essa função recebe como parâmetro uma lista de stopwords com todas as stopwords pré-colocadas para serem deprezadas dos documentos verificando assim se as palavras dos documentos estão presente na lista de stopwords. 
+
+```c++ void check_if_stopword(List *main_doc, List *sw, Item aux) {
+	void check_if_stopword(List *main_doc, List *sw, Item aux) {
+	Block *aux_block;
+
+	aux_block = sw->first->prox;
+
+	while (aux_block != NULL) {
+		if (aux.word == aux_block -> data.word) {
+			return;
+		}
+
+		aux_block = aux_block -> prox;
+	}
+
+	LInsert(main_doc, aux);
+}
+```
+_Representação 1: implementação da função check_if_stopword_
+
+```c++
+	check_if_stopword(doc, sw1, aux);
+```
+_Representação 2: chamanda da função para a lista de stopwords com um único caracter_
 
 ### •Função **_fill_list_with_cont_**
 
