@@ -28,7 +28,7 @@
 
 ## 🚀 Apresentação
 
-Foi proposto pelo professor Michel Pires da Silva da matéria de Arquitetura e Estruturas de Dados 1 do curso de Engenharia da Computação um trabalho onde o objetivo é projetar uma estrutura de filtragem de documentos por ranqueamento de palavras tendo como base o <a href="#algoritmo-tf-idf">Algoritmo TF-IDF</a>, estrutura que já foi utilizada pelo algorítmo do Google no ínicio. Para ser validado à correção, o trabalho deve seguir os seguintes pré-requisitos:
+Foi proposto pelo professor [Michel Pires da Silva](http://lattes.cnpq.br/1449902596670082) da matéria de Arquitetura e Estruturas de Dados 1 do curso de Engenharia da Computação um trabalho onde o objetivo é projetar uma estrutura de filtragem de documentos por ranqueamento de palavras tendo como base o <a href="#algoritmo-tf-idf">Algoritmo TF-IDF</a>, estrutura que já foi utilizada pelo algorítmo do Google no ínicio. Para ser validado à correção, o trabalho deve seguir os seguintes pré-requisitos:
   - [X] O código deve ser elaborado utilizando as linguagens <b>C</b> ou <b>C++</b>
   - [X] Exibir os documentos devidamente ranqueados
   - [X] O programa deve ser capaz de calcular o tempo de execução
@@ -382,9 +382,11 @@ Após ser feita essa chamada a função introduzirá declarando um bloco auxilia
 
 ## 📷 Representação gráfica
 
-<video width="700" height="700" autoplay>
-  <source src="animacao_tf-idf.mp4" type="video/mp4">
-</video>
+A representação abaixo demonstra detalhadamente cada etapa em que o algoritmo foi pensado e funciona utilizando como exemplo a frase de pesquisa _**'Em que a expansão do mercado influencia no fluxo de informações?'**_ buscando os seis documentos padrões forncecidos pelo professor [Michel Pires da Silva](http://lattes.cnpq.br/1449902596670082). 
+
+<img align="center" width="1000" height="600" src="img/animacao_tf-idf.gif">
+
+_Representação 1: GIF contendo detalhadamente etapas do algoritmo_
 
 ---
 
