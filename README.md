@@ -265,10 +265,19 @@ A condição acima analisa se a variável <code>numberCaracters</code> é igual 
 
 ---
 
-### 🔎 Lógica do ranqueamento e do cálculo TF-IDF
+### 🔎 Lógica do ranqueamento de documentos e do cálculo TF-IDF
 
-Com a filtragem das _stopwords_ concluída é possível iniciar o algoritmo com foco no cálculo e ranqueamento do TF-IDF onde primeiramente será tratada a pesquisa do usuário que vai ser inserida em um arquivo chamado `phrasetosearch.txt` onde a partir disso será chamada a função <a href="#função-readphrase">_read_phrase_</a> (explicada melhor na aba <a href="#⚙️-funções">Funções</a>), que vai receber como parâmetro os arquivos de filtragem das <i>stopwords</i> e o arquivo contendo a pesquisa do usuário, lendo então a frase de pesquisa e tratando-a, retirando pontuações (utilizando a função <a href="#função-stringtreatment">_string_treatment_</a>) e suas <i>stopwords</i> deixando então somente _strings_ que tem relevância para a pesquisa evitando um falso positivo no processo de ranking. Feito isso, será criada seis **listas dinâmicas** que correspondem aos seis documentos que serão utilizados com base na pesquisa para o ranqueamento, onde a partir disso será chamada a função <a href="#função-filterdocuments">_filter_documents_</a> que vai receber como parâmetro 
+Com a filtragem das _stopwords_ concluída é possível iniciar o algoritmo com foco no cálculo e ranqueamento do TF-IDF onde primeiramente será tratada a pesquisa do usuário que vai ser inserida em um arquivo chamado `phrasetosearch.txt` onde a partir disso será chamada a função <a href="#função-readphrase">_read_phrase_</a> (explicada melhor na aba <a href="#⚙️-funções">Funções</a>), que vai receber como parâmetro os arquivos de filtragem das <i>stopwords</i> e o arquivo contendo a pesquisa do usuário, lendo então a frase de pesquisa e tratando-a, retirando pontuações (utilizando a função <a href="#função-stringtreatment">_string_treatment_</a>) e suas <i>stopwords</i> deixando então somente _strings_ que tem relevância para a pesquisa evitando um falso positivo no processo de ranking. Feito isso, será criada seis **listas dinâmicas** que correspondem aos seis documentos que serão utilizados com base na pesquisa para o ranqueamento, onde a partir disso será chamada a função <a href="#função-filterdocuments">_filter_documents_</a> que vai receber como parâmetro o uma lista vazia (**document_x**) que ao final dessa função vai ser uma lista do documento tratado, uma string (**doc_name**) que antes de ser passada como parâmetro irá receber o nome do arquivo em que vai ser filtrado e as listas que possuem as filtragens de caracteres das _stopwords_, fazendo com que então o documento passado como parametro seja filtrado retirando todas as suas _stopwords_ e colocando aquelas palavras que não são na lista (**document_x**) deixando apenas as palavras relevantes e então estruturando os documentos para o inicio do cálculo `TF-IDF` e o ranqueamento. Após ser feito esse tratamento dos documentos de busca uma nova sequência de lista será criada (listas **wordcounter_docx**) em que serão usadas para serem passadas como parâmetros para uma nova função construída chamada <a href="#•função-filllistwithcont">_fill_list_with_cont_</a> onde recebe também a lista do documento que foi tratada anteriormente e faz com que cada palavra dessa lista do documento de busca seja verificada e contada a cada vez que aparece nesse documento, inserindo essas informações em uma outra lista que possui em seu bloco um **contador** e uma **string** para mais a frente ser possível utilizar esses dados para os cálculos juntamente com os dados da função <a href="#•função-verifyhowmanytimesseen">_verify_how_many_times_seen_</a> que vai ser chamada logo em seguida fazendo tambem a contagem de vezes em que a palavra aparece mas com os parâmetros diferentes sendo eles: lista da pesquisa do usuário (**input**) e o documento de busca (**document_x**), ou seja, essa função vai fazer com que seja feita a verificação de quantas vezes as palavras da pesquisa do usuário vai aparecer no documento correspondente colocando um **contador** nessas palavras e armazenando no bloco **ContWordSeen** que possui um **contador** e uma **string** para que ao final de tudo seja possível chamar a função criada <a href="#•função-tfidfcalc">_tf_idf_calc_</a> (explicada com mais detalhes no tópico abaixo), que recebe como parâmetro a lista de pesquisa (**input**) e todas as outras listas sendo elas **wordcounter_docx** e **document_x** onde vai ser feito o cálculo `TF-IDF` de cada documento utilizando os dados das listas passadas como parâmetro, armazenando os valores do cálculo em um vetor do tipo (**_float_**) para melhor resultado, passando esses valores para um **vector** correspondente ao documento e assim então fazendo uma verificação de qual é maior colocando-o na primeira posição para ao final entregar o resultado imprenso da maneira como é visto a seguir:
 
+<p align="center">
+<img src="img/saida_ranqueamento.png" width="120px"/> 
+</p>
+<p align="center">
+<i>Imagem 1: Saída do programa onde é imprenso o ranking de relevância dos documentos</i>
+</p>
+
+
+Levando em consideração o resultado da imagem acima os documentos utilizados foram todos padrões passados pelo professor sendo a pesquisa a frase inserida no arquivo `phrasetosearch.txt`: _**'Em que a expansão do mercado influencia no fluxo de informações?'**_.  
 
 ---
 
@@ -369,17 +378,81 @@ _Representação 1: chamada da função _find_word_cont__
 
 Após ser feita essa chamada a função introduzirá declarando um bloco auxiliar <b>*aux</b> onde vai receber a primeira posição da lista que contém as palavras contados do documento passado como parâmetro (lista **wordcounter_docx**) e através de uma estrutura de repetição `WHILE` vai percorrer essa lista até o final e a cada posição percorrida vai ser feita uma verificação apartir de uma estrutura de decisão `IF` verificando se a string presente em determinada posição da lista percorrida é igual a string passada como parâmetro e caso essa verificação seja verdadeira a função irá retornar o contador da string da lista **wordcounter_docx**, visto que isso vai auxiliar no cálculo como citado anteriormente pois ao retornar para a função <a href="#•função-tfidfcalc">_tf_idf_calc_</a> esse contador, vai ser possível ser feito os cálculos com os valores obtidos de quantas vezes a palavra presente na pesquisa apareceu em determinado documento.
 
-
 ---
 
 ## 📷 Representação gráfica
 
-
+<p align="center">
+<img src="img/animacao_tf-idf.gif" width="800px"/> 
+</p>
 
 ---
 
 ## 🔩 Execução de testes
 
+### Tempo de execução
+
+O tempo de execução do algoritmo `TF-IDF` foi medido utilizando da biblioteca **time.h** que desenvolve a leitura do relógio em segundos ao utilizar sua função _clock_ que devolve o tempo de CPU decorrido desde o início da execução do programa, onde o tempo é medido em ciclos do relógio interno como no exemplo de medição abaixo:
+
+```c++
+	size_t t;
+    t = clock();
+    tf_idf(); //Chamada da função que implementa o algoritmo TF-IDF
+    t = clock() - t;
+
+    cout << "\nTempo total: " << float(t)/CLOCKS_PER_SEC << " segundos" << std::endl << std::endl;
+```
+_Representação 1: Exemplo de implementação da função **time.h**_
+
+<p align="left">
+<img src="img/saida_ex_tempo.png" width="350px"/> 
+</p>
+
+_Imagem 1: Exemplo de saída do tempo de execução da implementação acima_
+
+Com a aplicação dessa função então foi possível medir o tempo de execução das 5 diferentes etapas do programa até chegar ao seu final onde efetua toda a proposta com êxito, sendo essas etapas <b><i>implementação das stopwords</b></i>, <b><i>leitura e filtragem dos documentos</b></i>, <b><i>contagem de palavra por palavra</b></i>, <b><i>verificação da contagem total de cada palavra presente nos documentos</b></i> e o<b><i> cálculo TF-IDF</b></i>, segue então a tabela abaixo onde possibilita visualizar a quantidade de vezes medida e a média aritmética entre as mesmas
+ 
+_Tabela 1: Resultado dos testes de tempo de execução de cada etapa do algoritmo_
+| Etapas | Teste 1 | Teste 2 | Teste 3 | Teste 4 | Teste 5 |                                              
+|------------------|------------|------------|------------|------------|------------|
+|  <b>Etapa 1</B>  | 7.4e-05 s  | 8.1e-05 s  | 7.4e-05 s  | 7.9e-05 s  | 8.2e-05 s  |                                
+|  <b>Etapa 2</B>  | 0,235741 s | 0.231393 s | 0.224697 s | 0.225507 s | 0.221642 s |               
+|  <b>Etapa 3</B>  | 0.459084 s | 0.461116 s | 0.455663 s | 0.454371 s | 0.440808 s |
+|  <b>Etapa 4</B>  | 0.004293 s | 0.004784 s | 0.004476 s | 0.004548 s | 0.004129 s |
+|  <b>Etapa 5</B>  | 0.000155 s | 0.000171 s | 0.000157 s | 0.000151 s | 0.000121 s |
+|  <b>Total</B>    | 0.699649 s | 0.697839 s | 0.685403 s | 0.684977 s | 0.667042 s |
+
+	Média Aritmética das medições feitas: 0.686982 segundos
+
+**_Observação:_** Todos os testes foram feitos em um computador com o sistema operacional Windows, utilizando _WSL (Windows Subsystem for Linux)_ para compilação, que possui um processador _AMD Ryzen 5 1600 Six-Core Processor 3.20 GHz_ com _16,0 GB de RAM DDR4_ utilizando uma frase padrão de pesquisa inserida no arquivo `phrasetosearch.txt`, sendo ela _**'Em que a expansão do mercado influencia no fluxo de informações?'**_.
+
+A figura abaixo consegue demonstrar a saída do programa onde fornece os tempos de execução em cada etapa:
+
+<p align="center">
+<img src="img/saída_calculotempo.png" width="800px"/> 
+</p>
+
+_Imagem 2: Saída do programa onde imprime os resultados dos testes de tempo de execução de cada etapa do algoritmo_
+
+### Cálculo do tempo de execucação total de cada integrante
+
+Em conjunto com o grupo em que foi responsável pela criação do algoritmo foi organizado uma tabela possuindo os dados de seus **processadores**, **mémoria RAM** e **Sistema Operancional** de cada integrante do grupo (um total de 9), sendo esses hardwares que possuem relevância para a diferença do cálculo de tempo, onde cada um compilou e executou o código em sua máquina aferindo o tempo de execução em um total de 5 vezes tornando possível visualizar com um menor desvio padrão do resultado possibilitando na criação da tabela abaixo:
+
+| Nome | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |                                            
+|------------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
+| <b>Caio</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |                                
+| <b>Felipe</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |               
+| <b>Henrique</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
+| <b>João Marcelo</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
+| <b>João Pedro | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
+| <b>Livia</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
+| <b>Lucas</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
+| <b>Pedro Louback</b> | Ryzen 5 1600 | 16 | Windows (WSL) |  0,662935 |  0,679511 |  0,676082 |  0,680472 |  0,678130 |  0,675426 |
+| <b>Pedro Pinheiro</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
+
+• Obtendo então a Média Aritmética de todas as aferições:
+
+	Média Aritmética: 0,675426 segundos
 
 ---
 
