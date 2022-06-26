@@ -272,7 +272,7 @@ A condição acima analisa se a variável <code>numberCaracters</code> é igual 
 Com a filtragem das _stopwords_ concluída é possível iniciar o algoritmo com foco no cálculo e ranqueamento do TF-IDF onde primeiramente será tratada a pesquisa do usuário que vai ser inserida em um arquivo chamado `phrasetosearch.txt` onde a partir disso será chamada a função <a href="#função-read_phrase">_read_phrase_</a> (explicada melhor na aba <a href="#%EF%B8%8F-funções">Funções</a>), que vai receber como parâmetro os arquivos de filtragem das <i>stopwords</i> e o arquivo contendo a pesquisa do usuário, lendo então a frase de pesquisa e tratando-a, retirando pontuações (utilizando a função <a href="#função-string_treatment">_string_treatment_</a>) e suas <i>stopwords</i> deixando então somente _strings_ que tem relevância para a pesquisa evitando um falso positivo no processo de ranking. Feito isso, será criada seis **listas dinâmicas** que correspondem aos seis documentos que serão utilizados com base na pesquisa para o ranqueamento, onde a partir disso será chamada a função <a href="#função-filter_documents">_filter_documents_</a> que vai receber como parâmetro uma lista vazia (**document_x**) que ao final dessa função vai ser uma lista do documento tratado, uma string (**doc_name**) que antes de ser passada como parâmetro irá receber o nome do arquivo em que vai ser filtrado e as listas que possuem as filtragens de caracteres das _stopwords_, fazendo com que então o documento passado como parâmetro seja filtrado retirando todas as suas _stopwords_ e colocando aquelas palavras que não são na lista (**document_x**) deixando apenas as palavras relevantes e então estruturando os documentos para o início do cálculo `TF-IDF` e o ranqueamento. Após ser feito esse tratamento dos documentos de busca uma nova sequência de lista será criada (listas **wordcounter_docx**) em que serão usadas para serem passadas como parâmetros para uma nova função construída chamada <a href="#função-fill_list_with_cont">_fill_list_with_cont_</a> onde recebe também a lista do documento que foi tratada anteriormente e faz com que cada palavra dessa lista do documento de busca seja verificada e contada a cada vez que aparece nesse documento, inserindo essas informações em uma outra lista que possui em seu bloco um **contador** e uma **string** para mais a frente ser possível utilizar esses dados para os cálculos juntamente com os dados da função <a href="#função-verify_how_many_times_seen">_verify_how_many_times_seen_</a> que vai ser chamada logo em seguida fazendo também a contagem de vezes em que a palavra aparece mas com os parâmetros diferentes sendo eles: lista da pesquisa do usuário (**input**) e o documento de busca (**document_x**), ou seja, essa função vai fazer com que seja feita a verificação de quantas vezes as palavras da pesquisa do usuário vai aparecer no documento correspondente colocando um **contador** nessas palavras e armazenando no bloco **ContWordSeen** que possui um **contador** e uma **string** para que ao final de tudo seja possível chamar a função criada <a href="#função-tf_idf_calc">_tf_idf_calc_</a> (explicada com mais detalhes no tópico abaixo), que recebe como parâmetro a lista de pesquisa (**input**) e todas as outras listas sendo elas **wordcounter_docx** e **document_x** onde vai ser feito o cálculo `TF-IDF` de cada documento utilizando os dados das listas passadas como parâmetro, armazenando os valores do cálculo em um vetor do tipo (**_float_**) para melhor resultado, passando esses valores para um **vector** correspondente ao documento e assim então fazendo uma verificação de qual é maior colocando-o na primeira posição para ao final entregar o resultado imprenso da maneira como é visto a seguir:
 
 <p align="center">
-<img src="img/saida_ranqueamento.png" width="120px"/> 
+<img src="img/saida_ranqueamento.png" width="230px"/> 
 </p>
 <p align="center">
 <i>Imagem 1: Saída do programa onde é imprenso o ranking de relevância dos documentos</i>
@@ -308,19 +308,99 @@ O algoritmo TF-IDF construído pelo grupo é composto por um total de 17 funçõ
 //Explicação João Marcelo
 
 ### •Função **_read_phrase_**
-//Explicação Caio
+
+A função `read_phrase` recebe **phrasetosearch.txt**, um documento onde está a frase e/ou palavra de pesquisa do usuário. Lendo esse documento e chamando outras funções para tratá-lo, retirando stopwords e caracteres especiais com a ajuda de outras funções. Por fim, o documento de pesquisa está tratado somente com palavras que possui relevância facilitanto assim o cálculo do tfidf.
+
+```c++
+	read_phrase(&input, "phrasetosearch.txt", &sw1, &sw2, &sw3, &sw4, &sw5, &sw6, &sw7, &sw8, &sw9, &sw10, &sw11, &sw12, &sw13);
+```
+_Representação 1: chamada da função read_phrase_
 
 ### •Função **_check_if_stopword_final_cont_**
-//Explicação Caio
+
+Assim como a função `check_if_stopword`, essa função verefica se as palavras são stopwords recebendo como parâmetro uma lista com stopwords, entretanto essa função tem um contador para a quantidade de vezes que cada palavra aparece fazendo com que dessa forma, não hajam palavras replicadas.
+
+```c++
+void check_if_stopword_final_cont(List *main_doc, List *sw, ContWordSeen aux) {
+	Block *aux_block;
+
+	aux_block = sw->first->prox;
+
+	while (aux_block != NULL) {
+		if (aux.word == aux_block -> data.word) {
+			return;
+		}
+
+		aux_block = aux_block -> prox;
+	}
+
+	LInsertContWordSeen(main_doc, aux);
+}
+```
+_Representação 1: implementação da função check_if_stopword_final_cont_
+
+```c++
+	check_if_stopword_final_cont(doc, sw1, aux);
+```
+_Representação 2: chamada da função para a lista de stopwords de um único caracter_
 
 ### •Função **_filter_documents_**
 //Explicação João Marcelo
 
 ### •Função **_string_treatment_**
-//Explicação Caio
+
+A função `string_treatment` retira caracteres indesejados em string como pontos de acentuação, números e também deixando todas as letra em minúsculo. Esssa função recebe como parâmetro uma string que retorna a mesam tratada facilitando assim a pesquisa nos documentos.
+
+```c++
+	std::string string_treatment(std::string s) {
+	int size = s.size();
+	std::string aux;
+
+	for (int i = 0; i < size; i++) {
+		if (s[i] != '.' && s[i]!= ',' && s[i] != ':' && s[i] != ';' && s[i] != '?' && s[i] != '!' && s[i] != '(' && s[i] != ')' && s[i] != '[' && s[i] != ']' && s[i] != '{'
+			&& s[i] != '}' && s[i] != '+'&& s[i] != '=' && s[i] != '-' && s[i] != '*' && s[i] != '/' && s[i] != '%' && !isdigit(s[i])) {
+			s[i] = tolower(s[i]);
+            aux += s[i];
+		}
+	}
+ 
+	return aux;
+}
+```
+_Representação 1: implementação da função string_treatment_
+
+```c++
+	auxiliar_2 = string_treatment(auxiliar);
+```
+_Representação 2: chamada da função string_treatment_
 
 ### •Função **_check_if_stopword_**
-//Explicação Caio
+
+Essa função recebe como parâmetro uma lista de stopwords com todas as stopwords pré-colocadas para serem deprezadas dos documentos verificando assim se as palavras dos documentos estão presente na lista de stopwords. 
+
+```c++ void check_if_stopword(List *main_doc, List *sw, Item aux) {
+	void check_if_stopword(List *main_doc, List *sw, Item aux) {
+	Block *aux_block;
+
+	aux_block = sw->first->prox;
+
+	while (aux_block != NULL) {
+		if (aux.word == aux_block -> data.word) {
+			return;
+		}
+
+		aux_block = aux_block -> prox;
+	}
+
+	LInsert(main_doc, aux);
+}
+```
+_Representação 1: implementação da função check_if_stopword_
+
+```c++
+	check_if_stopword(doc, sw1, aux);
+```
+_Representação 2: chamanda da função para a lista de stopwords com um único caracter_
 
 ### •Função **_fill_list_with_cont_**
 
@@ -386,7 +466,9 @@ Após ser feita essa chamada a função introduzirá declarando um bloco auxilia
 
 A representação abaixo demonstra detalhadamente cada etapa em que o algoritmo foi pensado e funciona utilizando como exemplo a frase de pesquisa _**'Em que a expansão do mercado influencia no fluxo de informações?'**_ buscando os seis documentos padrões fornecidos pelo professor [Michel Pires da Silva](http://lattes.cnpq.br/1449902596670082). 
 
-<iframe align="center" src="https://drive.google.com/file/d/1yHpbR5AR1J6EUg5TIKuuRbRpIeMoPX-N/preview" width="640" height="480" allow="autoplay"></iframe>
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=bJOeznIbGag"><img src="https://yt-embed.herokuapp.com/embed?v=bJOeznIbGag" alt="Animação TF-IDF" width="800px"></a>
+</div>
 
 _Representação 1: Vídeo contendo detalhadamente etapas do algoritmo_
 
@@ -446,7 +528,7 @@ Em conjunto com o grupo em que foi responsável pela criação do algoritmo foi 
 |------------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
 | <b>Caio</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |                                
 | <b>Felipe</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |               
-| <b>Henrique</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
+| <b>Henrique</b> | Intel i7-4790K | 16 | Windows 10 (WSL) |  0,695625 |  0,695431 |  0,685270 |  0,684731 |  0,679782 |  0,688168 |
 | <b>João Marcelo</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
 | <b>João Pedro | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
 | <b>Livia</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
