@@ -450,11 +450,11 @@ Em conjunto com o grupo em que foi responsável pela criação do algoritmo foi 
 | <b>Livia</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
 | <b>Lucas</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
 | <b>Pedro Louback</b> | Ryzen 5 1600 | 16 | Windows (WSL) |  0,662935 |  0,679511 |  0,676082 |  0,680472 |  0,678130 |  0,675426 |
-| <b>Pedro Pinheiro</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
+| <b>Pedro Pinheiro</b> | Intel i7-9750H | 8 | Windows 11 (WSL) |  0.571197 |  0.584476 |  0.580301 |  0.574252 |  0.578098 |  0.5776648 |
 
 • Obtendo então a Média Aritmética de todas as aferições:
 
-	Média Aritmética: 0,675426 segundos
+	Média Aritmética: 0,6265454 segundos
 
 ---
 
