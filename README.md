@@ -87,7 +87,7 @@ Resumindo, o TF-IDF ajusta esse cálculo para compreender a importância do term
 
 ## 📦 Lógica
 
-O algoritmo do cálculo TF-IDF criado pelo nosso grupo utilizou de base a `Estruturas de Dados do Tipo Lista Dinâmica` pela suas vantagens onde o seu custo e tratamento são melhores ques outras **Estruturas de Dados** já estudadas até o momento no curso de `Engenharia da Computação`, visto também que em aplicações em que não existe previsão sobre o crescimento da lista, é conveniente usar _listas dinâmicas_, onde permite utilizar posições não contíguas de memória sendo possivel **inserir** e **retirar** elementos sem haver necessidade de deslocar os itens seguintes da lista e em um custo constante.
+O algoritmo do cálculo TF-IDF criado pelo nosso grupo utilizou de base a `Estruturas de Dados do Tipo Lista Dinâmica` pela suas vantagens onde o seu custo e tratamento são melhores que outras **Estruturas de Dados** já estudadas até o momento no curso de `Engenharia da Computação`, visto também que em aplicações em que não existe previsão sobre o crescimento da lista, é conveniente usar _listas dinâmicas_, onde permite utilizar posições não contíguas de memória sendo possível **inserir** e **retirar** elementos sem haver necessidade de deslocar os itens seguintes da lista e em um custo constante.
 Uma das principais ideias pensadas pelo grupo ao otimizar o algoritmo e reduzir o seu custo que ao nosso ver também difere da ideia principal dos outros grupos é o **tratamento das _stopwords_**, onde inicialmente seria a parte em que o custo computacional do programa seria maior por precisar de diversos tratamentos, com isso foi pensado então na lógica e implementação presente no tópico abaixo:
 
 ---
@@ -103,6 +103,8 @@ Depois da criação do arquivo contendo todas as <i>stopwords</i>, foi feita a i
 ### <i>Mas por que uma estrutura de lista dinâmica?</i>
 
 Nesse caso, usamos a lista dinâmica por ser de maior facilidade de uso, mas caso usássemos estrutura de pilha ou fila, a função teria a mesma finalidade que é de armazenar as <i>stopwords</i> e não haveria mudança alguma quanto a custo computacional, já que seria feito apenas a inserção das <i>stopwords</i> primeiramente.
+
+
 
 ### A função citada é a seguinte:
 
@@ -267,7 +269,7 @@ A condição acima analisa se a variável <code>numberCaracters</code> é igual 
 
 ### 🔎 Lógica do ranqueamento de documentos e do cálculo TF-IDF
 
-Com a filtragem das _stopwords_ concluída é possível iniciar o algoritmo com foco no cálculo e ranqueamento do TF-IDF onde primeiramente será tratada a pesquisa do usuário que vai ser inserida em um arquivo chamado `phrasetosearch.txt` onde a partir disso será chamada a função <a href="#função-read_phrase">_read_phrase_</a> (explicada melhor na aba <a href="#%EF%B8%8F-funções">Funções</a>), que vai receber como parâmetro os arquivos de filtragem das <i>stopwords</i> e o arquivo contendo a pesquisa do usuário, lendo então a frase de pesquisa e tratando-a, retirando pontuações (utilizando a função <a href="#função-string_treatment">_string_treatment_</a>) e suas <i>stopwords</i> deixando então somente _strings_ que tem relevância para a pesquisa evitando um falso positivo no processo de ranking. Feito isso, será criada seis **listas dinâmicas** que correspondem aos seis documentos que serão utilizados com base na pesquisa para o ranqueamento, onde a partir disso será chamada a função <a href="#função-filter_documents">_filter_documents_</a> que vai receber como parâmetro uma lista vazia (**document_x**) que ao final dessa função vai ser uma lista do documento tratado, uma string (**doc_name**) que antes de ser passada como parâmetro irá receber o nome do arquivo em que vai ser filtrado e as listas que possuem as filtragens de caracteres das _stopwords_, fazendo com que então o documento passado como parametro seja filtrado retirando todas as suas _stopwords_ e colocando aquelas palavras que não são na lista (**document_x**) deixando apenas as palavras relevantes e então estruturando os documentos para o inicio do cálculo `TF-IDF` e o ranqueamento. Após ser feito esse tratamento dos documentos de busca uma nova sequência de lista será criada (listas **wordcounter_docx**) em que serão usadas para serem passadas como parâmetros para uma nova função construída chamada <a href="#função-fill_list_with_cont">_fill_list_with_cont_</a> onde recebe também a lista do documento que foi tratada anteriormente e faz com que cada palavra dessa lista do documento de busca seja verificada e contada a cada vez que aparece nesse documento, inserindo essas informações em uma outra lista que possui em seu bloco um **contador** e uma **string** para mais a frente ser possível utilizar esses dados para os cálculos juntamente com os dados da função <a href="#função-verify_how_many_times_seen">_verify_how_many_times_seen_</a> que vai ser chamada logo em seguida fazendo tambem a contagem de vezes em que a palavra aparece mas com os parâmetros diferentes sendo eles: lista da pesquisa do usuário (**input**) e o documento de busca (**document_x**), ou seja, essa função vai fazer com que seja feita a verificação de quantas vezes as palavras da pesquisa do usuário vai aparecer no documento correspondente colocando um **contador** nessas palavras e armazenando no bloco **ContWordSeen** que possui um **contador** e uma **string** para que ao final de tudo seja possível chamar a função criada <a href="#função-tf_idf_calc">_tf_idf_calc_</a> (explicada com mais detalhes no tópico abaixo), que recebe como parâmetro a lista de pesquisa (**input**) e todas as outras listas sendo elas **wordcounter_docx** e **document_x** onde vai ser feito o cálculo `TF-IDF` de cada documento utilizando os dados das listas passadas como parâmetro, armazenando os valores do cálculo em um vetor do tipo (**_float_**) para melhor resultado, passando esses valores para um **vector** correspondente ao documento e assim então fazendo uma verificação de qual é maior colocando-o na primeira posição para ao final entregar o resultado imprenso da maneira como é visto a seguir:
+Com a filtragem das _stopwords_ concluída é possível iniciar o algoritmo com foco no cálculo e ranqueamento do TF-IDF onde primeiramente será tratada a pesquisa do usuário que vai ser inserida em um arquivo chamado `phrasetosearch.txt` onde a partir disso será chamada a função <a href="#função-read_phrase">_read_phrase_</a> (explicada melhor na aba <a href="#%EF%B8%8F-funções">Funções</a>), que vai receber como parâmetro os arquivos de filtragem das <i>stopwords</i> e o arquivo contendo a pesquisa do usuário, lendo então a frase de pesquisa e tratando-a, retirando pontuações (utilizando a função <a href="#função-string_treatment">_string_treatment_</a>) e suas <i>stopwords</i> deixando então somente _strings_ que tem relevância para a pesquisa evitando um falso positivo no processo de ranking. Feito isso, será criada seis **listas dinâmicas** que correspondem aos seis documentos que serão utilizados com base na pesquisa para o ranqueamento, onde a partir disso será chamada a função <a href="#função-filter_documents">_filter_documents_</a> que vai receber como parâmetro uma lista vazia (**document_x**) que ao final dessa função vai ser uma lista do documento tratado, uma string (**doc_name**) que antes de ser passada como parâmetro irá receber o nome do arquivo em que vai ser filtrado e as listas que possuem as filtragens de caracteres das _stopwords_, fazendo com que então o documento passado como parâmetro seja filtrado retirando todas as suas _stopwords_ e colocando aquelas palavras que não são na lista (**document_x**) deixando apenas as palavras relevantes e então estruturando os documentos para o início do cálculo `TF-IDF` e o ranqueamento. Após ser feito esse tratamento dos documentos de busca uma nova sequência de lista será criada (listas **wordcounter_docx**) em que serão usadas para serem passadas como parâmetros para uma nova função construída chamada <a href="#função-fill_list_with_cont">_fill_list_with_cont_</a> onde recebe também a lista do documento que foi tratada anteriormente e faz com que cada palavra dessa lista do documento de busca seja verificada e contada a cada vez que aparece nesse documento, inserindo essas informações em uma outra lista que possui em seu bloco um **contador** e uma **string** para mais a frente ser possível utilizar esses dados para os cálculos juntamente com os dados da função <a href="#função-verify_how_many_times_seen">_verify_how_many_times_seen_</a> que vai ser chamada logo em seguida fazendo também a contagem de vezes em que a palavra aparece mas com os parâmetros diferentes sendo eles: lista da pesquisa do usuário (**input**) e o documento de busca (**document_x**), ou seja, essa função vai fazer com que seja feita a verificação de quantas vezes as palavras da pesquisa do usuário vai aparecer no documento correspondente colocando um **contador** nessas palavras e armazenando no bloco **ContWordSeen** que possui um **contador** e uma **string** para que ao final de tudo seja possível chamar a função criada <a href="#função-tf_idf_calc">_tf_idf_calc_</a> (explicada com mais detalhes no tópico abaixo), que recebe como parâmetro a lista de pesquisa (**input**) e todas as outras listas sendo elas **wordcounter_docx** e **document_x** onde vai ser feito o cálculo `TF-IDF` de cada documento utilizando os dados das listas passadas como parâmetro, armazenando os valores do cálculo em um vetor do tipo (**_float_**) para melhor resultado, passando esses valores para um **vector** correspondente ao documento e assim então fazendo uma verificação de qual é maior colocando-o na primeira posição para ao final entregar o resultado imprenso da maneira como é visto a seguir:
 
 <p align="center">
 <img src="img/saida_ranqueamento.png" width="120px"/> 
@@ -276,14 +278,13 @@ Com a filtragem das _stopwords_ concluída é possível iniciar o algoritmo com 
 <i>Imagem 1: Saída do programa onde é imprenso o ranking de relevância dos documentos</i>
 </p>
 
-
 Levando em consideração o resultado da imagem acima os documentos utilizados foram todos padrões passados pelo professor sendo a pesquisa a frase inserida no arquivo `phrasetosearch.txt`: _**'Em que a expansão do mercado influencia no fluxo de informações?'**_.  
 
 ---
 
 ## ⚙️ Funções
 
-O algoritmo TF-IDF construido pelo grupo é composto por um total de 17 funções, sendo 5 dessas funções utilizadas para o tratamento de 4 `Estruturas de Dados do Tipo Lista Dinâmica`, como por exemplo <i>inserções, remoções, impressões e verificações de espaços</i> dessas **listas**. As demais funções foram pensadas para a construção e tratamento do algoritmo TF-IDF, compondo o <i>cálculo, implementação, tratamento de **stop words** e ranqueamento</i>, sendo elas:
+O algoritmo TF-IDF construído pelo grupo é composto por um total de 17 funções, sendo 5 dessas funções utilizadas para o tratamento de 4 `Estruturas de Dados do Tipo Lista Dinâmica`, como por exemplo <i>inserções, remoções, impressões e verificações de espaços</i> dessas **listas**. As demais funções foram pensadas para a construção e tratamento do algoritmo TF-IDF, compondo o <i>cálculo, implementação, tratamento de **stop words** e ranqueamento</i>, sendo elas:
 
 ---
 
@@ -326,64 +327,64 @@ O algoritmo TF-IDF construido pelo grupo é composto por um total de 17 funçõe
 Essa função introduz a primeira parte do ranqueamento dos documentos, fazendo com que seja contado, com um contador **cont** dentro da função, a quantidade de vezes em que as palavras vão aparecer naquele documento. A função recebe como parâmetro duas listas, a lista em que contém a filtragem do documento em que vai ser feita o ranqueamento das palavras e uma outra lista vazia que vai ser preenchida dentro da função com a lista `WordCounter` como na representação abaixo:
 
 ```c++
-	void fill_list_with_cont(List *document, List *wordcount);
+    void fill_list_with_cont(List *document, List *wordcount);
 ```
 _Representação 1: chamada da função _fill_list_with_cont__
 
 Após ser feita a chamada da função ela inicia com a chamada da lista `WordCounter` que possui em seu bloco uma string e um contador onde vai auxiliar o ranqueamento das palavras com a quantidade de vezes em que ela apareceu nesse contador, com isso vai ser iniciado uma estrutura de repetição __*while*__ em que vai ser repetida enquanto o documento principal não terminar e dentro dessa estrutura uma variável auxiliar de string **aux_str** vai receber palavra por palavra desse documento a cada vez que a estrutura for repetida fazendo a verificação com uma estrutura de decisão `IF` verificando caso palavra não exista com a função <a href="#função-verify_if_word_exist">_verify_if_word_exist_</a> (explicada melhor no tópico abaixo), se não existir o programa vai entrar nessa estrutura e adicionar essa palavra que não existe na lista `WordCounter` com seu contador recebendo o número 1 de acordo com a representação abaixo:
 
 ```c++
-	if (!verify_if_word_exist(wordcount, aux_str)) {
-		aux_insert.word = aux_main_document->data.word;
-		aux_insert.contador = 1;
-		LInsertWordCounter(wordcount, aux_insert);
-	}
+    if (!verify_if_word_exist(wordcount, aux_str)) {
+        aux_insert.word = aux_main_document->data.word;
+        aux_insert.contador = 1;
+        LInsertWordCounter(wordcount, aux_insert);
+    }
 ```
 _Representação 2: inserção da palavra não existente na lista WordCounter_
 
-Ao sair dessa estrutura de decisão a váriavel **cont** vai acrescentar mais uma unidade em seu valor para que no final seja contabilizada a quantidade de palavras em que vai aparecer no documento analisado pela função adicionando esse valor ao bloco `Contador`.
+Ao sair dessa estrutura de decisão a variável **cont** vai acrescentar mais uma unidade em seu valor para que no final seja contabilizada a quantidade de palavras em que vai aparecer no documento analisado pela função adicionando esse valor ao bloco `Contador`.
 
 ### •Função **_verify_if_word_exist_**
 
-Essa função tem como objetivo apenas de ser utilizada na estrutura de decisão `IF` função <a href="#função-fill_list_with_cont">_fill_list_with_cont_</a> como verificação de existencia da palavra passada como parâmetro (**aux_str**) em conjunto com uma lista de palavras com um contador (**wordcount**)como na representação abaixo:
+Essa função tem como objetivo apenas de ser utilizada na estrutura de decisão `IF` função <a href="#função-fill_list_with_cont">_fill_list_with_cont_</a> como verificação de existencia da palavra passada como parâmetro (**aux_str**) em conjunto com uma lista de palavras com um contador (**wordcount**) como na representação abaixo:
 
 ```c++
-	bool verify_if_word_exist(List *wordcount, string word);
+    bool verify_if_word_exist(List *wordcount, string word);
 ```
 _Representação 1: chamada da função _verify_if_word_exist__
 
-Dentro dessa função vai ser chamado um bloco auxiliar ***aux** que vai receber a primeira posição da lista `wordcount` para que seja possível percorre-la inteira dentro da estrutura de repetição __<i>while</i>__ até o final onde a cada posição percorrida vai ser feita uma verificação com a estrutura de decisão `IF` se a palavra passada como parâmetro já está dentro da lista, caso não estiver a função vai retornar o tipo booleano <b>false</b>, caso possua a palavra dentro da lista `wordcount` será acrescentando mais uma unidade no valor da váriavel <b>contador</b> do bloco daquela palavra possibilitando então o ranqueamento de palavras dentro do documento pois com isso será possível verificar a quantidade de vezes em que as palavras estão dentro dos documentos que vão ser feito o ranqueamento, retornando então no final o tipo booleano <b>true</b>.
+Dentro dessa função vai ser chamado um bloco auxiliar ***aux** que vai receber a primeira posição da lista `wordcount` para que seja possível percorre-la inteira dentro da estrutura de repetição __<i>while</i>__ até o final onde a cada posição percorrida vai ser feita uma verificação com a estrutura de decisão `IF` se a palavra passada como parâmetro já está dentro da lista, caso não estiver a função vai retornar o tipo booleano <b>false</b>, caso possua a palavra dentro da lista `wordcount` será acrescentando mais uma unidade no valor da variável <b>contador</b> do bloco daquela palavra possibilitando então o ranqueamento de palavras dentro do documento pois com isso será possível verificar a quantidade de vezes em que as palavras estão dentro dos documentos que vão ser feito o ranqueamento, retornando então no final o tipo booleano <b>true</b>.
 
 ### •Função **_verify_how_many_times_seen_**
 
-Essa função foi construida com objetivo de verificar quantas vezes uma palavra pertencente a pesquisa do usuário aparece no documento passado como parâmetro (**document_x**) recebendo também a lista que contém as palavras da pesquisa como parâmetro (lista **input**) como na representação a seguir
+Essa função foi construída com objetivo de verificar quantas vezes uma palavra pertencente a pesquisa do usuário aparece no documento passado como parâmetro (**document_x**) recebendo também a lista que contém as palavras da pesquisa como parâmetro (lista **input**) como na representação a seguir
 
 ```c++
-	void verify_how_many_times_seen(List *input, List *document);
+    void verify_how_many_times_seen(List *input, List *document);
 ```
 _Representação 1: chamada da função _verify_how_many_times_seen__
 
-A função começa com a declaração de dois blocos auxiliares das listas sendo eles <b>*aux_input</b> e <b>*aux_document</b> onde apartir disso vai ser chamado duas estruturas de repetição `WHILE`, uma que vai percorrer a lista **input** com a ajuda do bloco auxiliar e outra que vai percorrer a lista **document** até o final e a cada posição percorrida vai ser feita a verificação, com uma estrutura de decisão `IF`, se a palavra pertencente a posição da lista **document**, ou seja, do documento de busca é igual a palavra da posição do documento que possui a pesquisa do usuário. Caso essa verificação prossiga vai ser acrescentado mais uma unidade no valor do contador possuente do bloco da pesquisa do usuário e após isso é colocada a posição do **aux_document** (váriavel que ajuda a percorrer a lista) no final da lista para que seja possível começar uma outra verificação de outra posição da lista **input** até o final dessa lista. 
+A função começa com a declaração de dois blocos auxiliares das listas sendo eles <b>*aux_input</b> e <b>*aux_document</b> onde a partir disso vai ser chamado duas estruturas de repetição `WHILE`, uma que vai percorrer a lista **input** com a ajuda do bloco auxiliar e outra que vai percorrer a lista **document** até o final e a cada posição percorrida vai ser feita a verificação, com uma estrutura de decisão `IF`, se a palavra pertencente a posição da lista **document**, ou seja, do documento de busca é igual a palavra da posição do documento que possui a pesquisa do usuário. Caso essa verificação prossiga vai ser acrescentado mais uma unidade no valor do contador possuente do bloco da pesquisa do usuário e após isso é colocada a posição do **aux_document** (variável que ajuda a percorrer a lista) no final da lista para que seja possível começar uma outra verificação de outra posição da lista **input** até o final dessa lista. 
 
 ### •Função **_tf_idf_calc_**
 //Explicação João Marcelo
 
 ### •Função **_find_word_cont_**
 
-A função _find__cont_ foi construída pensando no auxilio do cálculo `TF-IDF` onde ela retorna um tipo **int** sendo o número de ocorrências presente na função <a href="#função-tf_idf_calc">_tf_idf_calc_</a>, que obtido com base nos parâmetros passados na chamada da função que consiste em uma lista com as palavras contadas de determinado documento (**wordcounter_doc1**) e em string que é passada a partir do bloco da lista **input** (lista que possui a pesquisa do usuário) como é possível ver na representação abaixo:
+A função _find__cont_ foi construída pensando no auxílio do cálculo `TF-IDF` onde ela retorna um tipo **int** sendo o número de ocorrências presente na função <a href="#função-tf_idf_calc">_tf_idf_calc_</a>, que obtido com base nos parâmetros passados na chamada da função que consiste em uma lista com as palavras contadas de determinado documento (**wordcounter_doc1**) e em string que é passada a partir do bloco da lista **input** (lista que possui a pesquisa do usuário) como é possível ver na representação abaixo:
 
 ```c++
-	int find_word_cont(List *wordcounter, std::string to_find);
+    int find_word_cont(List *wordcounter, std::string to_find);
 ```
 _Representação 1: chamada da função _find_word_cont__
 
-Após ser feita essa chamada a função introduzirá declarando um bloco auxiliar <b>*aux</b> onde vai receber a primeira posição da lista que contém as palavras contados do documento passado como parâmetro (lista **wordcounter_docx**) e através de uma estrutura de repetição `WHILE` vai percorrer essa lista até o final e a cada posição percorrida vai ser feita uma verificação apartir de uma estrutura de decisão `IF` verificando se a string presente em determinada posição da lista percorrida é igual a string passada como parâmetro e caso essa verificação seja verdadeira a função irá retornar o contador da string da lista **wordcounter_docx**, visto que isso vai auxiliar no cálculo como citado anteriormente pois ao retornar para a função <a href="#função-tf_idf_calc">_tf_idf_calc_</a> esse contador, vai ser possível ser feito os cálculos com os valores obtidos de quantas vezes a palavra presente na pesquisa apareceu em determinado documento.
+Após ser feita essa chamada a função introduzirá declarando um bloco auxiliar <b>*aux</b> onde vai receber a primeira posição da lista que contém as palavras contados do documento passado como parâmetro (lista **wordcounter_docx**) e através de uma estrutura de repetição `WHILE` vai percorrer essa lista até o final e a cada posição percorrida vai ser feita uma verificação a partir de uma estrutura de decisão `IF` verificando se a string presente em determinada posição da lista percorrida é igual a string passada como parâmetro e caso essa verificação seja verdadeira a função irá retornar o contador da string da lista **wordcounter_docx**, visto que isso vai auxiliar no cálculo como citado anteriormente pois ao retornar para a função <a href="#função-tf_idf_calc">_tf_idf_calc_</a> esse contador, vai ser possível ser feitos os cálculos com os valores obtidos de quantas vezes a palavra presente na pesquisa apareceu em determinado documento.
 
 ---
 
 ## 📷 Representação gráfica
 
-A representação abaixo demonstra detalhadamente cada etapa em que o algoritmo foi pensado e funciona utilizando como exemplo a frase de pesquisa _**'Em que a expansão do mercado influencia no fluxo de informações?'**_ buscando os seis documentos padrões forncecidos pelo professor [Michel Pires da Silva](http://lattes.cnpq.br/1449902596670082). 
+A representação abaixo demonstra detalhadamente cada etapa em que o algoritmo foi pensado e funciona utilizando como exemplo a frase de pesquisa _**'Em que a expansão do mercado influencia no fluxo de informações?'**_ buscando os seis documentos padrões fornecidos pelo professor [Michel Pires da Silva](http://lattes.cnpq.br/1449902596670082). 
 
 <img align="center" width="1000" height="600" src="img/animacao_tf-idf.gif">
 
@@ -398,7 +399,7 @@ _Representação 1: GIF contendo detalhadamente etapas do algoritmo_
 O tempo de execução do algoritmo `TF-IDF` foi medido utilizando da biblioteca **time.h** que desenvolve a leitura do relógio em segundos ao utilizar sua função _clock_ que devolve o tempo de CPU decorrido desde o início da execução do programa, onde o tempo é medido em ciclos do relógio interno como no exemplo de medição abaixo:
 
 ```c++
-	size_t t;
+    size_t t;
     t = clock();
     tf_idf(); //Chamada da função que implementa o algoritmo TF-IDF
     t = clock() - t;
@@ -425,7 +426,7 @@ _Tabela 1: Resultado dos testes de tempo de execução de cada etapa do algoritm
 |  <b>Etapa 5</B>  | 0.000155 s | 0.000171 s | 0.000157 s | 0.000151 s | 0.000121 s |
 |  <b>Total</B>    | 0.699649 s | 0.697839 s | 0.685403 s | 0.684977 s | 0.667042 s |
 
-	Média Aritmética das medições feitas: 0.686982 segundos
+    Média Aritmética das medições feitas: 0.686982 segundos
 
 **_Observação:_** Todos os testes foram feitos em um computador com o sistema operacional Windows, utilizando _WSL (Windows Subsystem for Linux)_ para compilação, que possui um processador _AMD Ryzen 5 1600 Six-Core Processor 3.20 GHz_ com _16,0 GB de RAM DDR4_ utilizando uma frase padrão de pesquisa inserida no arquivo `phrasetosearch.txt`, sendo ela _**'Em que a expansão do mercado influencia no fluxo de informações?'**_.
 
@@ -437,9 +438,9 @@ A figura abaixo consegue demonstrar a saída do programa onde fornece os tempos 
 
 _Imagem 2: Saída do programa onde imprime os resultados dos testes de tempo de execução de cada etapa do algoritmo_
 
-### Cálculo do tempo de execucação total de cada integrante
+### Cálculo do tempo de execução total de cada integrante
 
-Em conjunto com o grupo em que foi responsável pela criação do algoritmo foi organizado uma tabela possuindo os dados de seus **processadores**, **mémoria RAM** e **Sistema Operancional** de cada integrante do grupo (um total de 9), sendo esses hardwares que possuem relevância para a diferença do cálculo de tempo, onde cada um compilou e executou o código em sua máquina aferindo o tempo de execução em um total de 5 vezes tornando possível visualizar com um menor desvio padrão do resultado possibilitando na criação da tabela abaixo:
+Em conjunto com o grupo em que foi responsável pela criação do algoritmo foi organizado uma tabela possuindo os dados de seus **processadores**, **memória RAM** e **Sistema Operacional** de cada integrante do grupo (um total de 9), sendo esses hardwares que possuem relevância para a diferença do cálculo de tempo, onde cada um compilou e executou o código em sua máquina aferindo o tempo de execução em um total de 5 vezes tornando possível visualizar com um menor desvio padrão do resultado possibilitando na criação da tabela abaixo:
 
 | Nome | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |                                            
 |------------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
@@ -450,11 +451,7 @@ Em conjunto com o grupo em que foi responsável pela criação do algoritmo foi 
 | <b>João Pedro | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
 | <b>Livia</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
 | <b>Lucas</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
-<<<<<<< HEAD
 | <b>Pedro Louback</b> | AMD Ryzen 5 1600 | 16 | Windows 10 (WSL) |  0,662935 |  0,679511 |  0,676082 |  0,680472 |  0,678130 |  0,675426 |
-=======
-| <b>Pedro Louback</b> | Ryzen 5 1600 | 16 | Windows (WSL) |  0,662935 |  0,679511 |  0,676082 |  0,680472 |  0,678130 |  0,675426 |
->>>>>>> 85289afba1191b5c16dffc6d3d2b604ef4e0f78b
 | <b>Pedro Pinheiro</b> | Intel i7-9750H | 8 | Windows 11 (WSL) |  0.571197 |  0.584476 |  0.580301 |  0.574252 |  0.578098 |  0.5776648 |
 
 • Obtendo então a Média Aritmética de todas as aferições:
