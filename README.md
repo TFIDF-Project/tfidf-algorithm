@@ -382,9 +382,9 @@ Após ser feita essa chamada a função introduzirá declarando um bloco auxilia
 
 ## 📷 Representação gráfica
 
-<p align="center">
-<img src="img/animacao_tf-idf.gif" width="800px"/> 
-</p>
+<video width="700" height="700" autoplay>
+  <source src="animacao_tf-idf.mp4" type="video/mp4">
+</video>
 
 ---
 
