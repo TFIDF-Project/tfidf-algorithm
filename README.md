@@ -288,17 +288,17 @@ O algoritmo TF-IDF construido pelo grupo é composto por um total de 17 funçõe
 ---
 
 <p align="center">
- <a href="#•função-tfidf">Função "tf_idf"</a> |
- <a href="#•função-readphrase">Função "read_phrase"</a> |
- <a href="#•função-checkifstopwordfinalcont">Função "check_if_stopword_final_cont"</a> |
- <a href="#•função-filterdocuments">Função "filter_documents"</a> | 
- <a href="#•função-stringtreatment">Função "string_treatment"</a> |
- <a href="#•função-checkifstopword">Função "check_if_stopword"</a> | 
- <a href="#•função-filllistwithcont">Função "fill_list_with_cont"</a> |
- <a href="#•função-verifyifwordexist">Função "verify_if_word_exist"</a> |
- <a href="#•função-verifyhowmanytimesseen">Função "verify_how_many_times_seen"</a> |
- <a href="#•função-tfidfcalc">Função "tf_idf_calc"</a> |
- <a href="#•função-findwordcont">Função "find_word_cont"</a>
+ <a href="#função-tf_idf">Função "tf_idf"</a> |
+ <a href="#função-read_phrase">Função "read_phrase"</a> |
+ <a href="#função-check_if_stopword_final_cont">Função "check_if_stopword_final_cont"</a> |
+ <a href="#função-filter_documents">Função "filter_documents"</a> | 
+ <a href="#função-string_treatment">Função "string_treatment"</a> |
+ <a href="#função-check_if_stopword">Função "check_if_stopword"</a> | 
+ <a href="#função-fill_list_with_cont">Função "fill_list_with_cont"</a> |
+ <a href="#função-verify_if_word_exist">Função "verify_if_word_exist"</a> |
+ <a href="#função-verify_how_many_times_seen">Função "verify_how_many_times_seen"</a> |
+ <a href="#função-tf_idf_calc">Função "tf_idf_calc"</a> |
+ <a href="#função-find_word_cont">Função "find_word_cont"</a>
 </p>
 
 ---
@@ -449,7 +449,11 @@ Em conjunto com o grupo em que foi responsável pela criação do algoritmo foi 
 | <b>João Pedro | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
 | <b>Livia</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
 | <b>Lucas</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
+<<<<<<< HEAD
+| <b>Pedro Louback</b> | AMD Ryzen 5 1600 | 16 | Windows 10 (WSL) |  0,662935 |  0,679511 |  0,676082 |  0,680472 |  0,678130 |  0,675426 |
+=======
 | <b>Pedro Louback</b> | Ryzen 5 1600 | 16 | Windows (WSL) |  0,662935 |  0,679511 |  0,676082 |  0,680472 |  0,678130 |  0,675426 |
+>>>>>>> 85289afba1191b5c16dffc6d3d2b604ef4e0f78b
 | <b>Pedro Pinheiro</b> | Intel i7-9750H | 8 | Windows 11 (WSL) |  0.571197 |  0.584476 |  0.580301 |  0.574252 |  0.578098 |  0.5776648 |
 
 • Obtendo então a Média Aritmética de todas as aferições:
