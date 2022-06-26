@@ -386,9 +386,9 @@ Após ser feita essa chamada a função introduzirá declarando um bloco auxilia
 
 A representação abaixo demonstra detalhadamente cada etapa em que o algoritmo foi pensado e funciona utilizando como exemplo a frase de pesquisa _**'Em que a expansão do mercado influencia no fluxo de informações?'**_ buscando os seis documentos padrões fornecidos pelo professor [Michel Pires da Silva](http://lattes.cnpq.br/1449902596670082). 
 
-<img align="center" width="1000" height="600" src="img/animacao_tf-idf.gif">
+<iframe align="center" src="https://drive.google.com/file/d/1yHpbR5AR1J6EUg5TIKuuRbRpIeMoPX-N/preview" width="640" height="480" allow="autoplay"></iframe>
 
-_Representação 1: GIF contendo detalhadamente etapas do algoritmo_
+_Representação 1: Vídeo contendo detalhadamente etapas do algoritmo_
 
 ---
 
