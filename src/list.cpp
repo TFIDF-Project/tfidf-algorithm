@@ -132,7 +132,7 @@ List *sw10, List *sw11, List *sw12, List *sw13) {
 	std::string line, auxiliar, auxiliar_2, delimiter = " ";
 	Item aux;
 	size_t pos = 0;
-	int cont = 0;
+	// int cont = 0;
 	myfile.open(doc_name);
 
 	if (myfile.is_open()) {
@@ -175,12 +175,11 @@ List *sw10, List *sw11, List *sw12, List *sw13) {
 				} else {
 					LInsert(doc, aux);
 				}
-				cont++;
 			}
 		}
-	} else {
-		std::cout << "nao abriu";
 	}
+
+	myfile.close();
 }
 
 bool verify_if_word_exist(List *wordcount, std::string word) {
@@ -215,7 +214,8 @@ void fill_list_with_cont(List *document, List *wordcount) {
 			aux_insert.word = aux_main_document -> data.word;
 			aux_insert.contador = 1;
 			LInsertWordCounter(wordcount, aux_insert);
-		}
+
+			}
 
 		cont++;
 		aux_main_document = aux_main_document -> prox;
@@ -270,13 +270,12 @@ List *sw10, List *sw11, List *sw12, List *sw13) {
 					check_if_stopword_final_cont(doc, sw12, aux);
 				} else if (aux.word.size() == 13) {
 					check_if_stopword_final_cont(doc, sw13, aux);
-				} 
+				}
 			}
 		}
-	} else {
-		std::cout << "nao abriu";
 	}
 
+	myfile.close();
 }
 
 void verify_how_many_times_seen(List *input, List *document) {
@@ -322,12 +321,12 @@ List *document_1, List *document_2, List *document_3, List *document_4, List *do
 	aux_input = input->first->prox;
 	std::vector <std::string> ranking;
 
-	ranking.push_back("1st Document");
-	ranking.push_back("2nd Document");
-	ranking.push_back("3rd Document");
-	ranking.push_back("4th Document");
-	ranking.push_back("5th Document");
-	ranking.push_back("6th Document");
+	ranking.push_back("Filosofia (Documento 1)");
+	ranking.push_back("Filosofia 2 (Documento 2)");
+	ranking.push_back("Globalizacao (Documento 3)");
+	ranking.push_back("Politica (Documento 4)");
+	ranking.push_back("TI (Documento 5)");
+	ranking.push_back("TI 2 (Documento 6)");
 
 	for (i = 0; i < 6; i++) {
 		final_tfidf[i] = 0;
@@ -425,7 +424,6 @@ List *document_1, List *document_2, List *document_3, List *document_4, List *do
 }
 
 void tf_idf() {
-	size_t t;
 	List sw1, sw2, sw3, sw4, sw5, sw6, sw7, sw8, sw9, sw10, sw11, sw12, sw13;
     FLVazia(&sw1);
     FLVazia(&sw2);
@@ -441,10 +439,7 @@ void tf_idf() {
     FLVazia(&sw12);
     FLVazia(&sw13);
 	
-	t = clock();
 	filter_stop_words(&sw1, &sw2, &sw3, &sw4, &sw5, &sw6, &sw7, &sw8, &sw9, &sw10, &sw11, &sw12, &sw13);
-	t = clock() - t;
-	std::cout << "\nTempo stopwords: " << float(t)/CLOCKS_PER_SEC << std::endl << std::endl;
 
 	List input;
 	FLVazia(&input);
@@ -459,7 +454,6 @@ void tf_idf() {
 	FLVazia(&document_5);
 	FLVazia(&document_6);
 
-	t = clock();
 	doc_name = "filosofia.txt";
 	filter_documents(&document_1, doc_name, &sw1, &sw2, &sw3, &sw4, &sw5, &sw6, &sw7, &sw8, &sw9, &sw10, &sw11, &sw12, &sw13);
 
@@ -477,10 +471,6 @@ void tf_idf() {
 
 	doc_name = "ti2.txt";
 	filter_documents(&document_6, doc_name, &sw1, &sw2, &sw3, &sw4, &sw5, &sw6, &sw7, &sw8, &sw9, &sw10, &sw11, &sw12, &sw13);
-	t = clock() - t;
-
-	std::cout << "\nTempo leitura de documentos: " << float(t)/CLOCKS_PER_SEC << std::endl << std::endl;
-
 
 	List wordcounter_doc1, wordcounter_doc2, wordcounter_doc3, wordcounter_doc4, wordcounter_doc5, wordcounter_doc6;
 	FLVazia(&wordcounter_doc1);
@@ -490,26 +480,20 @@ void tf_idf() {
 	FLVazia(&wordcounter_doc5);
 	FLVazia(&wordcounter_doc6);
 
-	t = clock();
 	fill_list_with_cont(&document_1, &wordcounter_doc1);
 	fill_list_with_cont(&document_2, &wordcounter_doc2);
 	fill_list_with_cont(&document_3, &wordcounter_doc3);
 	fill_list_with_cont(&document_4, &wordcounter_doc4);
 	fill_list_with_cont(&document_5, &wordcounter_doc5);
 	fill_list_with_cont(&document_6, &wordcounter_doc6);
-	t = clock() - t;
-	std::cout << "\nTempo contador de cada palavra: " << float(t)/CLOCKS_PER_SEC << std::endl << std::endl;
-
-	t = clock();
+	
 	verify_how_many_times_seen(&input, &document_1);
 	verify_how_many_times_seen(&input, &document_2);
 	verify_how_many_times_seen(&input, &document_3);
 	verify_how_many_times_seen(&input, &document_4);
 	verify_how_many_times_seen(&input, &document_5);
 	verify_how_many_times_seen(&input, &document_6);
-	t = clock() - t;
-	std::cout << "\nTempo contador de cada palavra total documentos: " << float(t)/CLOCKS_PER_SEC << std::endl << std::endl;
-
+	
 	tf_idf_calc(&input, &wordcounter_doc1, &wordcounter_doc2, &wordcounter_doc3, &wordcounter_doc4, &wordcounter_doc5, &wordcounter_doc6,
 	&document_1, &document_2, &document_3, &document_4, &document_5, &document_6);
 }
