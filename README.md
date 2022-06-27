@@ -492,7 +492,7 @@ Após ser feita a chamada da função ela inicia com a chamada da lista `WordCou
 _Representação 2: inserção da palavra não existente na lista WordCounter_
 
 Ao sair dessa estrutura de decisão a variável **cont** vai acrescentar mais uma unidade em seu valor para que no final seja contabilizada a quantidade de palavras em que vai aparecer no documento analisado pela função adicionando esse valor ao bloco `Contador`.
----
+
 
 ### •Função **_find_word_cont_**
 
@@ -505,7 +505,7 @@ _Representação 1: chamada da função _find_word_cont__
 
 Após ser feita essa chamada a função introduzirá declarando um bloco auxiliar <b>*aux</b> onde vai receber a primeira posição da lista que contém as palavras contados do documento passado como parâmetro (lista **wordcounter_docx**) e através de uma estrutura de repetição `WHILE` vai percorrer essa lista até o final e a cada posição percorrida vai ser feita uma verificação a partir de uma estrutura de decisão `IF` verificando se a string presente em determinada posição da lista percorrida é igual a string passada como parâmetro e caso essa verificação seja verdadeira a função irá retornar o contador da string da lista **wordcounter_docx**, visto que isso vai auxiliar no cálculo como citado anteriormente pois ao retornar para a função <a href="#função-tf_idf_calc">_tf_idf_calc_</a> esse contador, vai ser possível ser feitos os cálculos com os valores obtidos de quantas vezes a palavra presente na pesquisa apareceu em determinado documento.
 
----
+
 
 ### •Função **_verify_if_word_exist_**
 
@@ -517,7 +517,7 @@ Essa função tem como objetivo apenas de ser utilizada na estrutura de decisão
 _Representação 1: chamada da função _verify_if_word_exist__
 
 Dentro dessa função vai ser chamado um bloco auxiliar ***aux** que vai receber a primeira posição da lista `wordcount` para que seja possível percorre-la inteira dentro da estrutura de repetição __<i>while</i>__ até o final onde a cada posição percorrida vai ser feita uma verificação com a estrutura de decisão `IF` se a palavra passada como parâmetro já está dentro da lista, caso não estiver a função vai retornar o tipo booleano <b>false</b>, caso possua a palavra dentro da lista `wordcount` será acrescentando mais uma unidade no valor da variável <b>contador</b> do bloco daquela palavra possibilitando então o ranqueamento de palavras dentro do documento pois com isso será possível verificar a quantidade de vezes em que as palavras estão dentro dos documentos que vão ser feito o ranqueamento, retornando então no final o tipo booleano <b>true</b>.
----
+
 
 ### •Função **_verify_how_many_times_seen_**
 
@@ -530,7 +530,7 @@ _Representação 1: chamada da função _verify_how_many_times_seen__
 
 A função começa com a declaração de dois blocos auxiliares das listas sendo eles <b>*aux_input</b> e <b>*aux_document</b> onde a partir disso vai ser chamado duas estruturas de repetição `WHILE`, uma que vai percorrer a lista **input** com a ajuda do bloco auxiliar e outra que vai percorrer a lista **document** até o final e a cada posição percorrida vai ser feita a verificação, com uma estrutura de decisão `IF`, se a palavra pertencente a posição da lista **document**, ou seja, do documento de busca é igual a palavra da posição do documento que possui a pesquisa do usuário. Caso essa verificação prossiga vai ser acrescentado mais uma unidade no valor do contador possuente do bloco da pesquisa do usuário e após isso é colocada a posição do **aux_document** (variável que ajuda a percorrer a lista) no final da lista para que seja possível começar uma outra verificação de outra posição da lista **input** até o final dessa lista. 
 
----
+
 
 ### •Função **_tf_idf_calc_**
 
@@ -559,7 +559,7 @@ Na primeira interação do código são salvos em um vector valores do tipo `str
 	}
  ```
 
-<h3>Calculo do IDF:<h3/>
+Calculo do IDF:
 
 A função começa a calcular o IDF, chamando uma estrutura de decisão `while`, que deve se repetir enquanto o valor da variável `aux_input` for diferente de **NULL**. Dentro desta estrutura, entramos em uma estrutura de decisão `if`, onde se o valor do termo por documento for diferente de zero o algoritmo entra nesta estrutura de decisão e calcula o IDF do termo em questão, se a condição não for atendida significa que o termo não aparece no documento. Logo, seu IDF sera igual a zero.
 
@@ -574,7 +574,7 @@ while (aux_input != NULL) {
 		}
 ```
 
-<h3>Calculo do tf:<h3/>
+Calculo do tf:
 
 Após calcular o IDF a função inicia o cálculo do TF, primeiramente, são atribuídos a uma variável **ocurrences** o valor que conta na função `find_word_cont`, que nada mais é a quantidade de vezes que o termo apareceu em um documento específico. Logo após, são salvos na variável **total** o total de palavras que existem no documento. Após todas a variáveis necessárias serem setadas com os devidos valores o algoritmo chama uma estrutura de decisão `if`, verificando se o termo analisado aparece no documento em questão. Se o valor da variável "occurrencs" for "0", logo o *TF* deste termo também é zero, caso contrário o algoritmo entra em uma estrutura `else`, fazendo o cálculo do *TF*. Nesse sentido, ao sair desta estrutura é feito o cálculo do *TFxIDF*, o valor é atribuído a uma posiçao do vetor "final_tfidf[i]". Esta estrutura se repete "6" vezes, uma vez para cada arquivo principal passsado.
  
