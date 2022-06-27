@@ -304,8 +304,7 @@ O algoritmo TF-IDF construído pelo grupo é composto por um total de 17 funçõ
 
 ---
 
-### •Função **_tf_idf_**
-//Explicação João Marcelo
+
 
 ### •Função **_read_phrase_**
 
@@ -345,7 +344,77 @@ _Representação 1: implementação da função check_if_stopword_final_cont_
 _Representação 2: chamada da função para a lista de stopwords de um único caracter_
 
 ### •Função **_filter_documents_**
-//Explicação João Marcelo
+
+Esta função tem como parâmetro a criação de 14 listas, uma para o documento principal a ser comparado e as outras 13 para as *stopwords*, separando as *stopwords* pela quantidade de caracteres. O que esta função faz é bem simples, mas muito importante para a otimização do algoritmo, a principal função dela é identificar as *stopwords* presentes em cada documento e em seguida removê-las gerando um novo documento sem as *stopswords*.
+
+```c++
+void filter_documents(List *doc, std::string doc_name, List *sw1, List *sw2, List *sw3, List *sw4, List *sw5, List *sw6, List *sw7, List *sw8, List *sw9, 
+List *sw10, List *sw11, List *sw12, List *sw13)
+```
+Dentro da função são criados alguns variáveis para auxiliar na abertura e na leitura dos arquivos.
+```c++
+std::ifstream myfile;
+	std::string line, auxiliar, auxiliar_2, delimiter = " ";
+	Item aux;
+	size_t pos = 0;
+	int cont = 0;
+```
+Logo, após abrirmos o arquivo principal, entramos em uma estrutura de repetição `while` e lemos linhas por linha deste arquivo, bem como salvamos na variável **aux** do tipo `Item`.
+```c++
+if (myfile.is_open()) {
+		while(!myfile.eof()) {
+			getline(myfile, line);
+			aux.word = line;
+```
+
+Após as linhas salvas, a função entra em uma estrutura de repetição `While`, usamos um delimitador chamado **delimiter**, o qual identifica espaços em branco na linha em que está sendo lida, apaga estes espaços e salva as palavras separadas em uma variável chamada **auxliliar**. Em seguida, é onde tratamos cada string e identificamos se ela é uma palavra ou apenas um símbolo, chamando a variável `string_treatment` e passando como parâmentro a `string` **auxiliar**. As strings identificadas como palavras são salvas na variável **auxiliar_2** e, logo após, retornam para a variável `Item` **aux**.
+```c++
+while ((pos = line.find(delimiter)) != std::string::npos) {
+				aux.word = (line.substr(0, pos));
+				line.erase(0, pos + delimiter.size());
+				auxiliar = aux.word;
+				auxiliar_2 = string_treatment(auxiliar);
+				aux.word = auxiliar_2;
+```
+Ainda dentro da estrutura `while` começamos a comparar as palavra salvas com as *stop words* e removemos as palavras identificadas como *stopwords*, cada palavra é comparada respectivamente com alguma *stopword* do memso tamanho. Assim, otimizando o tempo de execução do algoritmo. Após isto, todas as palavras restantes são salvas novamente em um arquivo principal, porém agora sem as *stopwords*.
+```c++
+if (aux.word.size() == 1) {
+					check_if_stopword(doc, sw1, aux);
+				} else if (aux.word.size() == 2) {
+					check_if_stopword(doc, sw2, aux);
+				} else if (aux.word.size() == 3) {
+					check_if_stopword(doc, sw3, aux);
+				} else if (aux.word.size() == 4) {
+					check_if_stopword(doc, sw4, aux);
+				} else if (aux.word.size() == 5) {
+					check_if_stopword(doc, sw5, aux);
+				} else if (aux.word.size() == 6) {
+					check_if_stopword(doc, sw6, aux);
+				} else if (aux.word.size() == 7) {
+					check_if_stopword(doc, sw7, aux);
+				} else if (aux.word.size() == 8) {
+					check_if_stopword(doc, sw8, aux);
+				} else if (aux.word.size() == 9) {
+					check_if_stopword(doc, sw9, aux);
+				} else if (aux.word.size() == 10) {
+					check_if_stopword(doc, sw10, aux);
+				} else if (aux.word.size() == 11) {
+					check_if_stopword(doc, sw11, aux);
+				} else if (aux.word.size() == 12) {
+					check_if_stopword(doc, sw12, aux);
+				} else if (aux.word.size() == 13) {
+					check_if_stopword(doc, sw13, aux);
+				} else {
+					LInsert(doc, aux);
+				}
+
+```
+Caso o arquivo não atenda a nenhum parâmetro, será printado na tela uma mensagem ao usuário que o arquivo não pôde ser aberto.
+```c++
+else {
+		std::cout << "nao abriu";
+	}
+```
 
 ### •Função **_string_treatment_**
 
@@ -423,31 +492,7 @@ Após ser feita a chamada da função ela inicia com a chamada da lista `WordCou
 _Representação 2: inserção da palavra não existente na lista WordCounter_
 
 Ao sair dessa estrutura de decisão a variável **cont** vai acrescentar mais uma unidade em seu valor para que no final seja contabilizada a quantidade de palavras em que vai aparecer no documento analisado pela função adicionando esse valor ao bloco `Contador`.
-
-### •Função **_verify_if_word_exist_**
-
-Essa função tem como objetivo apenas de ser utilizada na estrutura de decisão `IF` função <a href="#função-fill_list_with_cont">_fill_list_with_cont_</a> como verificação de existencia da palavra passada como parâmetro (**aux_str**) em conjunto com uma lista de palavras com um contador (**wordcount**) como na representação abaixo:
-
-```c++
-    bool verify_if_word_exist(List *wordcount, string word);
-```
-_Representação 1: chamada da função _verify_if_word_exist__
-
-Dentro dessa função vai ser chamado um bloco auxiliar ***aux** que vai receber a primeira posição da lista `wordcount` para que seja possível percorre-la inteira dentro da estrutura de repetição __<i>while</i>__ até o final onde a cada posição percorrida vai ser feita uma verificação com a estrutura de decisão `IF` se a palavra passada como parâmetro já está dentro da lista, caso não estiver a função vai retornar o tipo booleano <b>false</b>, caso possua a palavra dentro da lista `wordcount` será acrescentando mais uma unidade no valor da variável <b>contador</b> do bloco daquela palavra possibilitando então o ranqueamento de palavras dentro do documento pois com isso será possível verificar a quantidade de vezes em que as palavras estão dentro dos documentos que vão ser feito o ranqueamento, retornando então no final o tipo booleano <b>true</b>.
-
-### •Função **_verify_how_many_times_seen_**
-
-Essa função foi construída com objetivo de verificar quantas vezes uma palavra pertencente a pesquisa do usuário aparece no documento passado como parâmetro (**document_x**) recebendo também a lista que contém as palavras da pesquisa como parâmetro (lista **input**) como na representação a seguir
-
-```c++
-    void verify_how_many_times_seen(List *input, List *document);
-```
-_Representação 1: chamada da função _verify_how_many_times_seen__
-
-A função começa com a declaração de dois blocos auxiliares das listas sendo eles <b>*aux_input</b> e <b>*aux_document</b> onde a partir disso vai ser chamado duas estruturas de repetição `WHILE`, uma que vai percorrer a lista **input** com a ajuda do bloco auxiliar e outra que vai percorrer a lista **document** até o final e a cada posição percorrida vai ser feita a verificação, com uma estrutura de decisão `IF`, se a palavra pertencente a posição da lista **document**, ou seja, do documento de busca é igual a palavra da posição do documento que possui a pesquisa do usuário. Caso essa verificação prossiga vai ser acrescentado mais uma unidade no valor do contador possuente do bloco da pesquisa do usuário e após isso é colocada a posição do **aux_document** (variável que ajuda a percorrer a lista) no final da lista para que seja possível começar uma outra verificação de outra posição da lista **input** até o final dessa lista. 
-
-### •Função **_tf_idf_calc_**
-//Explicação João Marcelo
+---
 
 ### •Função **_find_word_cont_**
 
@@ -461,6 +506,171 @@ _Representação 1: chamada da função _find_word_cont__
 Após ser feita essa chamada a função introduzirá declarando um bloco auxiliar <b>*aux</b> onde vai receber a primeira posição da lista que contém as palavras contados do documento passado como parâmetro (lista **wordcounter_docx**) e através de uma estrutura de repetição `WHILE` vai percorrer essa lista até o final e a cada posição percorrida vai ser feita uma verificação a partir de uma estrutura de decisão `IF` verificando se a string presente em determinada posição da lista percorrida é igual a string passada como parâmetro e caso essa verificação seja verdadeira a função irá retornar o contador da string da lista **wordcounter_docx**, visto que isso vai auxiliar no cálculo como citado anteriormente pois ao retornar para a função <a href="#função-tf_idf_calc">_tf_idf_calc_</a> esse contador, vai ser possível ser feitos os cálculos com os valores obtidos de quantas vezes a palavra presente na pesquisa apareceu em determinado documento.
 
 ---
+
+### •Função **_verify_if_word_exist_**
+
+Essa função tem como objetivo apenas de ser utilizada na estrutura de decisão `IF` função <a href="#função-fill_list_with_cont">_fill_list_with_cont_</a> como verificação de existencia da palavra passada como parâmetro (**aux_str**) em conjunto com uma lista de palavras com um contador (**wordcount**) como na representação abaixo:
+
+```c++
+    bool verify_if_word_exist(List *wordcount, string word);
+```
+_Representação 1: chamada da função _verify_if_word_exist__
+
+Dentro dessa função vai ser chamado um bloco auxiliar ***aux** que vai receber a primeira posição da lista `wordcount` para que seja possível percorre-la inteira dentro da estrutura de repetição __<i>while</i>__ até o final onde a cada posição percorrida vai ser feita uma verificação com a estrutura de decisão `IF` se a palavra passada como parâmetro já está dentro da lista, caso não estiver a função vai retornar o tipo booleano <b>false</b>, caso possua a palavra dentro da lista `wordcount` será acrescentando mais uma unidade no valor da variável <b>contador</b> do bloco daquela palavra possibilitando então o ranqueamento de palavras dentro do documento pois com isso será possível verificar a quantidade de vezes em que as palavras estão dentro dos documentos que vão ser feito o ranqueamento, retornando então no final o tipo booleano <b>true</b>.
+---
+
+### •Função **_verify_how_many_times_seen_**
+
+Essa função foi construída com objetivo de verificar quantas vezes uma palavra pertencente a pesquisa do usuário aparece no documento passado como parâmetro (**document_x**) recebendo também a lista que contém as palavras da pesquisa como parâmetro (lista **input**) como na representação a seguir
+
+```c++
+    void verify_how_many_times_seen(List *input, List *document);
+```
+_Representação 1: chamada da função _verify_how_many_times_seen__
+
+A função começa com a declaração de dois blocos auxiliares das listas sendo eles <b>*aux_input</b> e <b>*aux_document</b> onde a partir disso vai ser chamado duas estruturas de repetição `WHILE`, uma que vai percorrer a lista **input** com a ajuda do bloco auxiliar e outra que vai percorrer a lista **document** até o final e a cada posição percorrida vai ser feita a verificação, com uma estrutura de decisão `IF`, se a palavra pertencente a posição da lista **document**, ou seja, do documento de busca é igual a palavra da posição do documento que possui a pesquisa do usuário. Caso essa verificação prossiga vai ser acrescentado mais uma unidade no valor do contador possuente do bloco da pesquisa do usuário e após isso é colocada a posição do **aux_document** (variável que ajuda a percorrer a lista) no final da lista para que seja possível começar uma outra verificação de outra posição da lista **input** até o final dessa lista. 
+
+---
+
+### •Função **_tf_idf_calc_**
+
+A próxima função talvez seja a mais importante do algoritmo, ele tem como objetivo fazer o cálculo do TF-IDF e retornar os arquivos mais relevantes de acordo com a pesquisa feita pelo usuário.
+
+A função recebe como parâmetro 13 estruturas do tipo lista, sendo 1(input) para salvar o termo pesquisado pelo usuário, 6(wordcouter_doc...) que serão utilizados no cálculo do TF para salvar o número que cada termo aparece em cada documento, e 6(document_...) para salvar os documentos a serem analizados.
+
+```c++
+void tf_idf_calc(List *input, List *wordcounter_doc1, List *wordcounter_doc2, List *wordcounter_doc3, List *wordcounter_doc4, List *wordcounter_doc5, List *wordcounter_doc6,
+List *document_1, List *document_2, List *document_3, List *document_4, List *document_5, List *document_6)
+
+```
+
+Na primeira interação do código são salvos em um vector valores do tipo `string` para que servirão para definir o ranking dos documentos, após isso uma estrutura de repetição `for` define os valores do vetor `final_tfidf[i]` para zero.
+
+```c++
+	ranking.push_back("1st Document");
+	ranking.push_back("2nd Document");
+	ranking.push_back("3rd Document");
+	ranking.push_back("4th Document");
+	ranking.push_back("5th Document");
+	ranking.push_back("6th Document");
+
+	for (i = 0; i < 6; i++) {
+		final_tfidf[i] = 0;
+	}
+ ```
+
+<h3>Calculo do IDF:<h3/>
+
+A função começa a calcular o IDF, chamando uma estrutura de decisão `while`, que deve se repetir enquanto o valor da variável `aux_input` for diferente de **NULL**. Dentro desta estrutura, entramos em uma estrutura de decisão `if`, onde se o valor do termo por documento for diferente de zero o algoritmo entra nesta estrutura de decisão e calcula o IDF do termo em questão, se a condição não for atendida significa que o termo não aparece no documento. Logo, seu IDF sera igual a zero.
+
+```c++
+while (aux_input != NULL) {
+		i = 0;
+
+		if (aux_input -> cont_all_documents.contador != 0) {
+			idf = log10(6 / aux_input->cont_all_documents.contador);
+		} else {
+			idf = 0;
+		}
+```
+
+<h3>Calculo do tf:<h3/>
+
+Após calcular o IDF a função inicia o cálculo do TF, primeiramente, são atribuídos a uma variável **ocurrences** o valor que conta na função `find_word_cont`, que nada mais é a quantidade de vezes que o termo apareceu em um documento específico. Logo após, são salvos na variável **total** o total de palavras que existem no documento. Após todas a variáveis necessárias serem setadas com os devidos valores o algoritmo chama uma estrutura de decisão `if`, verificando se o termo analisado aparece no documento em questão. Se o valor da variável "occurrencs" for "0", logo o *TF* deste termo também é zero, caso contrário o algoritmo entra em uma estrutura `else`, fazendo o cálculo do *TF*. Nesse sentido, ao sair desta estrutura é feito o cálculo do *TFxIDF*, o valor é atribuído a uma posiçao do vetor "final_tfidf[i]". Esta estrutura se repete "6" vezes, uma vez para cada arquivo principal passsado.
+ 
+```C++
+occurrences = find_word_cont(wordcounter_doc1, aux_input->cont_all_documents.word);
+		total = document_1 ->first->prox->cont.total_words;
+		if (occurrences == 0) {
+			tf = 0;
+		} else {
+			tf = (float)occurrences / (float)total;
+		}
+		final_tfidf[i] += (tf*idf);
+		i++;
+
+		occurrences = find_word_cont(wordcounter_doc2, aux_input->cont_all_documents.word);
+		total = document_2 ->first->prox->cont.total_words;
+		if (occurrences == 0) {
+			tf = 0;
+		} else {
+			tf = (float)occurrences / (float)total;
+		}
+		final_tfidf[i] += (tf*idf);
+		i++;
+
+		occurrences = find_word_cont(wordcounter_doc3, aux_input->cont_all_documents.word);
+		total = document_3 ->first->prox->cont.total_words;
+		if (occurrences == 0) {
+			tf = 0;
+		} else {
+			tf = (float)occurrences / (float)total;
+		}
+		final_tfidf[i] += (tf*idf);
+		i++;
+
+		occurrences = find_word_cont(wordcounter_doc4, aux_input->cont_all_documents.word);
+		total = document_4 ->first->prox->cont.total_words;
+		if (occurrences == 0) {
+			tf = 0;
+		} else {
+			tf = (float)occurrences / (float)total;
+		}
+		final_tfidf[i] += (tf*idf);
+		i++;
+
+		occurrences = find_word_cont(wordcounter_doc5, aux_input->cont_all_documents.word);
+		total = document_5 ->first->prox->cont.total_words;
+		if (occurrences == 0) {
+			tf = 0;
+		} else {
+			tf = (float)occurrences / (float)total;
+		}
+		final_tfidf[i] += (tf*idf);
+		i++;
+
+		occurrences = find_word_cont(wordcounter_doc6, aux_input->cont_all_documents.word);
+		total = document_6 ->first->prox->cont.total_words;
+		if (occurrences == 0) {
+			tf = 0;
+		} else {
+			tf = (float)occurrences / (float)total;
+		}
+		final_tfidf[i] += (tf*idf);
+		i++;
+```
+
+
+Por último, a função entra em duas estruturas de repetição `for` e em uma estrutura de decisão `if`, que tem como parâmetro de comparação o cálculo final do *TF-IDF*. Estas últimas estruturas do código tem como função ordernar de forma descresente os documentos analisados, fazendo assim um ranking de documentos mais relevantes de acordo com o *TF-IDF*.
+
+```c++
+for (i = 0; i < 6; i++) {
+		for (int j = i + 1; j < 6; j++) {
+			if (final_tfidf[i] < final_tfidf[j]) {
+				auxiliar = final_tfidf[i]; aux = ranking[i];
+				final_tfidf[i] = final_tfidf[j]; ranking[i] = ranking[j];
+				final_tfidf[j] = auxiliar; ranking[j] = aux;
+			}
+		}
+	}
+
+	std::cout << std::endl << std::endl;
+	for (i = 0; i < 6; i++) {
+		std::cout << ranking[i] << std::endl; 
+	}
+}
+```
+---
+
+
+
+### •Função **_tf_idf_**
+
+Esta é utiliza como função principal, seu objetivo é executar todas as outras funções secundárias e registrar o tempo de execução de cada função.  
+
+```c++
+void tf_idf() {
+```
 
 ## 📷 Representação gráfica
 
@@ -529,10 +739,10 @@ Em conjunto com o grupo em que foi responsável pela criação do algoritmo foi 
 | <b>Caio</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |                                
 | <b>Felipe</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |               
 | <b>Henrique</b> | Intel i7-4790K | 16 | Windows 10 (WSL) |  0,695625 |  0,695431 |  0,685270 |  0,684731 |  0,679782 |  0,688168 |
-| <b>João Marcelo</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
+| <b>João Marcelo</b> | Intel i5-8265U | 8 | Ubuntu 20.04.4  |  1.34769 |  1.36259 |  1.38506 |  1.38253 |  1.34472 |  1,364518  |
 | <b>João Pedro | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
 | <b>Livia</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
-| <b>Lucas</b> | i7-6700K | 16GB | UBUNTU 20.04 |  0.509106 |  0.51278 |  0.513569 |  0.509033 |  0.517417 |  0.512381 |
+| <b>Lucas</b> | Intel i7-6700K | 16GB | UBUNTU 20.04 |  0.509106 |  0.51278 |  0.513569 |  0.509033 |  0.517417 |  0.512381 |
 | <b>Pedro Louback</b> | AMD Ryzen 5 1600 | 16 | Windows 10 (WSL) |  0,662935 |  0,679511 |  0,676082 |  0,680472 |  0,678130 |  0,675426 |
 | <b>Pedro Pinheiro</b> | Intel i7-9750H | 8 | Windows 11 (WSL) |  0.571197 |  0.584476 |  0.580301 |  0.574252 |  0.578098 |  0.5776648 |
 
@@ -576,3 +786,4 @@ O programa feito de acordo com a proposta possui um arquivo Makefile que realiza
 Projeto elaborado por [Caio Fernando Dias](https://github.com/Caio-Fernando-Dias), [Felipe Coelho de Oliveira Campos](https://github.com/fco3lho), [Henrique Souza Fagundes](https://github.com/ohenriquesouza), [João Marcelo Gonçalves Lisboa](https://github.com/joaojmgl), [João Pedro Martins Espíndola](https://github.com/JoaoMEspindola?tab=repositories), [Livia Gonçalves](https://github.com/Livia-Goncalves-01), [Lucas Farinelli Crivellari de Pinho](https://github.com/farinellizin), [Pedro Henrique Louback Campos](https://github.com/PedroLouback) e [Pedro Pinheiro de Siqueira](https://github.com/ppinheirosiqueira) 
 
 Alunos da matéria de Arquitetura e Estruturas de Dados 1 do curso de `Engenharia da Computação` no [CEFET-MG](https://www.cefetmg.br)
+
