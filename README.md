@@ -736,11 +736,11 @@ Em conjunto com o grupo em que foi responsável pela criação do algoritmo foi 
 
 | Nome | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |                                            
 |------------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
-| <b>Caio</b> | Intel i5-8265U | 8 | Ubuntu 20.04.4  |  1.34769 |  1.36259 |  1.38506 |  1.38253 |  1.34472 |  1,364518  |                                
+| <b>Caio</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |                                
 | <b>Felipe</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |               
 | <b>Henrique</b> | Intel i7-4790K | 16 | Windows 10 (WSL) |  0,695625 |  0,695431 |  0,685270 |  0,684731 |  0,679782 |  0,688168 |
 | <b>João Marcelo</b> | Intel i5-8265U | 8 | Ubuntu 20.04.4  |  1.34769 |  1.36259 |  1.38506 |  1.38253 |  1.34472 |  1,364518  |
-| <b>João Pedro | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
+| <b>João Pedro | Ryzen 5 3400G | 16 (GB) | Windows 10 (WSL) |  0,733651 |  0,697513 |  0,685463 |  0,700452 |  0,713501 |  0,706116 |
 | <b>Livia</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |
 | <b>Lucas</b> | Intel i7-6700K | 16GB | UBUNTU 20.04 |  0.509106 |  0.51278 |  0.513569 |  0.509033 |  0.517417 |  0.512381 |
 | <b>Pedro Louback</b> | AMD Ryzen 5 1600 | 16 | Windows 10 (WSL) |  0,662935 |  0,679511 |  0,676082 |  0,680472 |  0,678130 |  0,675426 |
