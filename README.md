@@ -18,6 +18,7 @@
  <a href="#-lógica-do-ranqueamento-de-documentos-e-do-cálculo-tf-idf">Lógica do ranqueamento e do cálculo TF-IDF</a> •
  <a href="#%EF%B8%8F-funções">Funções</a> •
  <a href="#-representação-gráfica">Representação gráfica</a> •
+ <a href="#custo-computacional">Custo computacional</a> •
  <a href="#-execução-de-testes">Execução de testes</a> • 
  <a href="#-bibliotecas">Bibliotecas</a> •
  <a href="#-compilação-e-execução">Compilação e Execução</a> • 
@@ -376,7 +377,7 @@ while ((pos = line.find(delimiter)) != std::string::npos) {
 				auxiliar_2 = string_treatment(auxiliar);
 				aux.word = auxiliar_2;
 ```
-Ainda dentro da estrutura `while` começamos a comparar as palavra salvas com as *stop words* e removemos as palavras identificadas como *stopwords*, cada palavra é comparada respectivamente com alguma *stopword* do memso tamanho. Assim, otimizando o tempo de execução do algoritmo. Após isto, todas as palavras restantes são salvas novamente em um arquivo principal, porém agora sem as *stopwords*.
+Ainda dentro da estrutura `while` começamos a comparar as palavra salvas com as *stop words* e removemos as palavras identificadas como *stopwords*, cada palavra é comparada respectivamente com alguma *stopword* do mesmo tamanho. Assim, otimizando o tempo de execução do algoritmo. Após isto, todas as palavras restantes são salvas novamente em um arquivo principal, porém agora sem as *stopwords*.
 ```c++
 if (aux.word.size() == 1) {
 					check_if_stopword(doc, sw1, aux);
@@ -418,7 +419,7 @@ else {
 
 ### •Função **_string_treatment_**
 
-A função `string_treatment` retira caracteres indesejados em string como pontos de acentuação, números e também deixando todas as letra em minúsculo. Esssa função recebe como parâmetro uma string que retorna a mesam tratada facilitando assim a pesquisa nos documentos.
+A função `string_treatment` retira caracteres indesejados em string como pontos de acentuação, números e também deixando todas as letras em minúsculo. Essa função recebe como parâmetro uma string que retorna a mesma tratada facilitando assim a pesquisa nos documentos.
 
 ```c++
 	std::string string_treatment(std::string s) {
@@ -469,7 +470,7 @@ _Representação 1: implementação da função check_if_stopword_
 ```c++
 	check_if_stopword(doc, sw1, aux);
 ```
-_Representação 2: chamanda da função para a lista de stopwords com um único caracter_
+_Representação 2: chamada da função para a lista de stopwords com um único caracter_
 
 ### •Função **_fill_list_with_cont_**
 
@@ -683,6 +684,23 @@ A representação abaixo demonstra detalhadamente cada etapa em que o algoritmo 
 _Representação 1: Vídeo contendo detalhadamente etapas do algoritmo_
 
 ---
+	
+## Custo computacional
+
+Este programa pode ser dividido em algumas funções básicas, como será demonstrado a seguir na <a href="#-execução-de-testes">Execução de testes</a>. Em códigos onde ocorrem diversos tipos de filtros, testes, comparações, a função que possuir mais repetições, ou uma entrada maior costuma contar como o maior custo do sistema e por isso se torna o custo do código como um todo.
+ 
+Neste código, podemos dividir o código em 5 etapas, sendo elas:
+1. Implementação das stopwords
+2. Leitura e Filtragem dos documentos
+3. Contagem de cada palavra
+4. Contagem total de cada palavra presente nos documentos
+5. Cálculo do TF-IDF
+
+Por análise simples se sabe que o cálculo em si do TF-IDF não é demorado, sua demora vem justamente dos procedimentos que ocorrem antes, sendo este então separado, seu custo é irrelevante. O mesmo pode ser dito para a quarta etapa, onde a contagem de cada palavra, após todas as filtragens feitas se torna algo irrelevante.
+
+A primeira etapa poderia ser relevante, a depender da quantidade de stopwords em comparação com a quantidade de palavras existentes nos documentos. No entanto, é sabido em nosso caso que o número de stopwords é relativamente pequeno (229 palavras), enquanto nossos documentos terão na casa da milhar de linhas, cheias de palavras. Com isso, o custo da etapa 1 se torna irrelevante em comparação com os da etapa 2 e 3.
+
+Quanto a comparação das etapas 2 e 3. Ambas possuem diversas estruturas de repetições em seu código, porém, não existe nenhuma estrutura de repetição dentro de outra estrutura de repetição, nenhuma possui um while dentro de um while, ou um for dentro de um for (este tipo de situação existe para o cálculo do TF, porém estes for em questões possuem valores de n baixos demais para serem significativos). Dado assim, que ambas as etapas possuem o mesmo tipo de estruturas de repetições, ambas estão em O(N), pois suas variações vem de constantes que seriam os multiplicadores referentes aos números de comparações feitos para cada etapa. No nosso código especificamente, a etapa 2, graças a eficiência na filtragem de nossas stopwords, realiza uma quantidade de comparações bem menor do que a etapa 3.
 
 ## 🔩 Execução de testes
 
