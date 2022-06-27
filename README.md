@@ -736,18 +736,19 @@ Em conjunto com o grupo em que foi responsável pela criação do algoritmo foi 
 
 | Integrante | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) |                                            
 |------------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
-| <b>Caio</b> | Intel i5-8265U | 8 | Ubuntu 20.04.4  |  1.34769 |  1.36259 |  1.38506 |  1.38253 |  1.34472 |  1,364518 |                                
-| <b>Felipe</b> | Processador | Mémoria (GB) | Sistema Operacional |  Tempo 1 (s) |  Tempo 2 (s) |  Tempo 3 (s) |  Tempo 4 (s) |  Tempo 5 (s) |  Média Aritmética (s) | 
+| <b>Caio</b> | Intel i5-8265U | 8 | Ubuntu 20.04.4  |  1,34769 |  1,36259 |  1,38506 |  1,38253 |  1,34472 |  1,364518 |                                
+| <b>Felipe</b> | Intel i3-8100 | 8 | Windows 10 (WSL) |  0,895941 |  0,800382 |  0,788688 |  0,784120 |  0,826320 |  0,819090 | 
 | <b>Henrique</b> | Intel i7-4790K | 16 | Windows 10 (WSL) |  0,695625 |  0,695431 |  0,685270 |  0,684731 |  0,679782 |  0,688168 |
-| <b>João Marcelo</b> | Intel i5-8265U | 8 | Ubuntu 20.04.4  |  1.34769 |  1.36259 |  1.38506 |  1.38253 |  1.34472 |  1,364518  |
-| <b>João Pedro | Ryzen 5 3400G | 16  | Windows 10 (WSL) |  0,733651 |  0,697513 |  0,685463 |  0,700452 |  0,713501 |  0,706116 |
-| <b>Lucas</b> | Intel i7-6700K | 16 | UBUNTU 20.04 |  0.509106 |  0.51278 |  0.513569 |  0.509033 |  0.517417 |  0.512381 |
+| <b>João Marcelo</b> | Intel i5-8265U | 8 | Ubuntu 20.04.4  |  1,34769 |  1,36259 |  1,38506 |  1,38253 |  1,34472 |  1,364518  |
+| <b>João Pedro | AMD Ryzen 5 3400G | 16  | Windows 10 (WSL) |  0,733651 |  0,697513 |  0,685463 |  0,700452 |  0,713501 |  0,706116 |
+| <b>Livia | AMD Ryzen 5 5500U  | 8  | Windows 11 (WSL) |  0,866116 |  0,875831 |  0,874576 |  0,852953 |  0,857664 |  0,865428 |
+| <b>Lucas</b> | Intel i7-6700K | 16 | Ubuntu 20.04 |  0,509106 |  0,51278 |  0,513569 |  0,509033 |  0,517417 |  0,512381 |
 | <b>Pedro Louback</b> | AMD Ryzen 5 1600 | 16 | Windows 10 (WSL) |  0,662935 |  0,679511 |  0,676082 |  0,680472 |  0,678130 |  0,675426 |
-| <b>Pedro Pinheiro</b> | Intel i7-9750H | 8 | Windows 11 (WSL) |  0.571197 |  0.584476 |  0.580301 |  0.574252 |  0.578098 |  0.5776648 |
+| <b>Pedro Pinheiro</b> | Intel i7-9750H | 8 | Windows 11 (WSL) |  0,571197 |  0,584476 |  0,580301 |  0,574252 |  0,578098 |  0,5776648 |
 
 • Obtendo então a Média Aritmética de todas as aferições:
 
-	Média Aritmética: 0,6265454 segundos
+	Média Aritmética geral: 0,841479 segundos
 
 ---
 
