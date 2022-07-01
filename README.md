@@ -661,9 +661,6 @@ for (i = 0; i < 6; i++) {
 	}
 }
 ```
----
-
-
 
 ### •Função **_tf_idf_**
 
@@ -673,15 +670,25 @@ Esta é utiliza como função principal, seu objetivo é executar todas as outra
 void tf_idf() {
 ```
 
+---
+
 ## 📷 Representação gráfica
 
-A representação abaixo demonstra detalhadamente cada etapa em que o algoritmo foi pensado e funciona utilizando como exemplo a frase de pesquisa _**'Em que a expansão do mercado influencia no fluxo de informações?'**_ buscando os seis documentos padrões fornecidos pelo professor [Michel Pires da Silva](http://lattes.cnpq.br/1449902596670082). 
+Foi feito um total de duas representações gráficas onde foi possível representar ideias do código final para o bom entedimento do leito, a primeira representação abaixo demonstra o funcionamento passo a passo de como era feito o tratamento da inserção do usuário no algoritmo passando por cada função mencionada acima:
+
+<p align="center">
+<img src="img/gif_representacao.gif" width="350px"/> 
+</p>
+
+_Representação 1: GIF contendo detalhadamente etapas de tratamento da inserção do usuário_
+
+A segunda representação abaixo demonstra detalhadamente cada etapa em que o algoritmo foi pensado e funciona utilizando como exemplo a frase de pesquisa _**'Em que a expansão do mercado influencia no fluxo de informações?'**_ buscando os seis documentos padrões fornecidos pelo professor [Michel Pires da Silva](http://lattes.cnpq.br/1449902596670082). 
 
 <div align="center">
   <a href="https://www.youtube.com/watch?v=bJOeznIbGag"><img src="https://yt-embed.herokuapp.com/embed?v=bJOeznIbGag" alt="Animação TF-IDF" width="800px"></a>
 </div>
 
-_Representação 1: Vídeo contendo detalhadamente etapas do algoritmo_
+_Representação 2: Vídeo contendo detalhadamente etapas do algoritmo_
 
 ---
 	
