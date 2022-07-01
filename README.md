@@ -692,22 +692,45 @@ _Representação 2: Vídeo contendo detalhadamente etapas do algoritmo_
 
 ---
 	
-## Custo computacional
+## Custo Computacional
 
 Este programa pode ser dividido em algumas funções básicas, como será demonstrado a seguir na <a href="#-execução-de-testes">Execução de testes</a>. Em códigos onde ocorrem diversos tipos de filtros, testes, comparações, a função que possuir mais repetições, ou uma entrada maior costuma contar como o maior custo do sistema e por isso se torna o custo do código como um todo.
  
-Neste código, podemos dividir o código em 5 etapas, sendo elas:
+Para analisar o custo deste código, o dividiremos em 4 partes, sendo elas:
 1. Implementação das stopwords
 2. Leitura e Filtragem dos documentos
 3. Contagem de cada palavra
-4. Contagem total de cada palavra presente nos documentos
-5. Cálculo do TF-IDF
+4. Cálculo do TF-IDF
 
-Por análise simples se sabe que o cálculo em si do TF-IDF não é demorado, sua demora vem justamente dos procedimentos que ocorrem antes, sendo este então separado, seu custo é irrelevante. O mesmo pode ser dito para a quarta etapa, onde a contagem de cada palavra, após todas as filtragens feitas se torna algo irrelevante.
+### Primeira etapa
+Stopwords possuem um número fixo, que varia de língua para língua. Para auxiliar em etapas posteriores, as stopwords foram separadas em diversas listas de tamanho fixo. Em nosso caso específico, foram 13 listas, uma para cada tamanho possível de palavra no documento de stopword, pois era sabido o documento de stopword usado. No entanto, falando de maneira genérica, não é possível saber qual o tamanho das stopwords. Independente disso, o custo para essa etapa é de NS (Número de Stopwords), pois cada palavra é analisada (contagem de caracteres) e atribuída a uma das listas de stopwords.
 
-A primeira etapa poderia ser relevante, a depender da quantidade de stopwords em comparação com a quantidade de palavras existentes nos documentos. No entanto, é sabido em nosso caso que o número de stopwords é relativamente pequeno (229 palavras), enquanto nossos documentos terão na casa da milhar de linhas, cheias de palavras. Com isso, o custo da etapa 1 se torna irrelevante em comparação com os da etapa 2 e 3.
+### Segunda etapa
+Para a Leitura e Filtragem de documentos a situação "complica" um pouco. Cada palavra do documento é analisada, e a depender da quantidade de caracteres que existem nesta palavra, ela é comparada com a lista de stopwords de mesma quantidade de caracteres, para verificar se é excluída ou se é adicionada a uma lista de palavras do documento. Então o seu custo não depende unicamente de N (Número de Palavras do Documento), como também das comparações desta palavra com as listas de stopwords, chamando essas listas de LS (Lista de Stopwords), temos então que o custo computacional desta parte é dado por:
 
-Quanto a comparação das etapas 2 e 3. Ambas possuem diversas estruturas de repetições em seu código, porém, não existe nenhuma estrutura de repetição dentro de outra estrutura de repetição, nenhuma possui um while dentro de um while, ou um for dentro de um for (este tipo de situação existe para o cálculo do TF, porém estes for em questões possuem valores de n baixos demais para serem significativos). Dado assim, que ambas as etapas possuem o mesmo tipo de estruturas de repetições, ambas estão em O(N), pois suas variações vem de constantes que seriam os multiplicadores referentes aos números de comparações feitos para cada etapa. No nosso código especificamente, a etapa 2, graças a eficiência na filtragem de nossas stopwords, realiza uma quantidade de comparações bem menor do que a etapa 3.
+  $$\frac{NS}{LS}*N$$
+
+Quando consideramos o nosso caso específico, NS e LS são fixos, sendo 129 e 13 respectivamente. Neste caso, o custo computacional desta etapa está em $\theta(N)$.
+
+### Terceira etapa
+A terceira etapa é após a filtragem e por isso é a parte mais complexa do algoritmo. Existem algumas colocações para essa etapa, onde podemos pensar no melhor caso e no pior caso, e explicar o caso médio, porém sem demonstrá-lo de forma exata, por ser basicamente impossível de determinar.
+
+A melhor situação é onde todas as palavras do documento eram stopwords e por isso não existem palavras a serem contadas. 
+
+Outra alternativa para esta melhor situação, é quando sobraram N palavras após a filtragem, porém todas são iguais. Com isso sendo feitas somente N comparações.
+
+O pior caso são quando não só nenhuma palavra do documento era stopword, como todas as palavras eram diferentes entre si. Tornando esse processo extremamente lento, dado que seriam feitas N² comparações.
+
+O caso médio, é quando existem palavras que foram eliminadas pelas stopwords, e que existam palavras repetidas. Pois ambos os casos, melhor e pior, são completamente fora da realidade. No entanto, como não foi implementado nenhuma forma de busca mais eficiente durante esta etapa para ser somada ou não, o seu custo se torna algo nebuloso entre o melhor (N) e o pior caso (N²), dependendo muito da ordem das palavras a serem adicionadas e das palavras buscadas pelos usuários.
+
+### Quarta etapa
+A última etapa é bem direta, como o anterior, não existe uma busca para as palavras contadas, então o número de vezes que esta parte rodara dependerá da quantidade de palavras pesquisadas pelo usuário, chamaremos ela aqui de NU (Número de palavras do Usuário). No melhor caso, esse NU é igual a 1, ou seja, uma única palavra será procurada, e ela está na primeira posição do vetor de palavras pesquisadas. Sendo assim seu melhor caso ideal é quando somente uma única comparação é feita para encontrar seu número para cada documento. No pior caso, esta palavra pode não estar na lista do documento, e realizar N comparações até chegar a seu final.
+
+Com isso, o custo desta etapa dependerá de NU, com o misto de sorte entre onde a palavra buscada estará na lista, seu custo se torna: 
+  
+  $$NU*N$$
+
+Com a descoberta das palavras, o cálculo em si do IF-IDF é simples, como sabíamos que o número de documentos era igual a 6, a forma de implementar não se importou tanto com a otimização e foi colocado dois for para esta parte. O número de iterações é fixo e baixo, não chegando a ser significativo para o custo do algoritmo.
 
 ## 🔩 Execução de testes
 
