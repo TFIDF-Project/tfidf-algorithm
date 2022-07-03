@@ -55,7 +55,7 @@ void filter_stop_words(List *sw1, List *sw2, List *sw3, List *sw4, List *sw5, Li
 List *sw12, List *sw13);
 void check_if_stopword(List *main_doc, List *sw, Item aux);
 void LInsertContWordSeen(List *l, ContWordSeen d);
-// void check_if_stopword_final_cont(List *main_doc, List *sw, ContWordSeen aux);
+void check_if_stopword_final_cont(List *main_doc, List *sw, ContWordSeen aux);
 void filter_documents(List *doc, std::string doc_name, List *sw1, List *sw2, List *sw3, List *sw4, List *sw5, List *sw6, List *sw7, List *sw8, List *sw9, 
 List *sw10, List *sw11, List *sw12, List *sw13);
 bool verify_if_word_exist(List *wordcount, std::string word);

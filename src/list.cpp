@@ -110,10 +110,10 @@ void LInsertContWordSeen(List *l, ContWordSeen d){
 	l -> last -> prox = NULL;
 }
 
-void check_if_stopword_final_cont(List *main_doc, List *sw, ContWordSeen aux) {
+void check_if_stopword_final_cont(List *input, List *sw, ContWordSeen aux) {
 	Block *aux_block;
 
-	aux_block = sw->first->prox;
+	aux_block = sw -> first -> prox;
 
 	while (aux_block != NULL) {
 		if (aux.word == aux_block -> data.word) {
@@ -123,7 +123,7 @@ void check_if_stopword_final_cont(List *main_doc, List *sw, ContWordSeen aux) {
 		aux_block = aux_block -> prox;
 	}
 
-	LInsertContWordSeen(main_doc, aux);
+	LInsertContWordSeen(input, aux);
 }
 
 void filter_documents(List *doc, std::string doc_name, List *sw1, List *sw2, List *sw3, List *sw4, List *sw5, List *sw6, List *sw7, List *sw8, List *sw9, 
@@ -132,7 +132,6 @@ List *sw10, List *sw11, List *sw12, List *sw13) {
 	std::string line, auxiliar, auxiliar_2, delimiter = " ";
 	Item aux;
 	size_t pos = 0;
-	// int cont = 0;
 	myfile.open(doc_name);
 
 	if (myfile.is_open()) {
@@ -441,10 +440,6 @@ void tf_idf() {
 	
 	filter_stop_words(&sw1, &sw2, &sw3, &sw4, &sw5, &sw6, &sw7, &sw8, &sw9, &sw10, &sw11, &sw12, &sw13);
 
-	List input;
-	FLVazia(&input);
-	read_phrase(&input, "phrasetosearch.txt", &sw1, &sw2, &sw3, &sw4, &sw5, &sw6, &sw7, &sw8, &sw9, &sw10, &sw11, &sw12, &sw13);
-
 	List document_1, document_2, document_3, document_4, document_5, document_6;
 	std::string doc_name;
 	FLVazia(&document_1);
@@ -486,14 +481,78 @@ void tf_idf() {
 	fill_list_with_cont(&document_4, &wordcounter_doc4);
 	fill_list_with_cont(&document_5, &wordcounter_doc5);
 	fill_list_with_cont(&document_6, &wordcounter_doc6);
+
+	List input;
+	FLVazia(&input);
 	
-	verify_how_many_times_seen(&input, &document_1);
-	verify_how_many_times_seen(&input, &document_2);
-	verify_how_many_times_seen(&input, &document_3);
-	verify_how_many_times_seen(&input, &document_4);
-	verify_how_many_times_seen(&input, &document_5);
-	verify_how_many_times_seen(&input, &document_6);
+	std::ifstream myfile;
+	myfile.open("phrasetosearch.txt");
+	std::string line, auxiliar, auxiliar_2, delimiter = " ";
+	size_t pos;
+	ContWordSeen aux;
+
+	if (myfile.is_open()) {
+		while (!myfile.eof()) {
+			getline(myfile, line);			// pegar uma linha
+			aux.word = line;
+			while ((pos = line.find(delimiter)) != std::string::npos) {
+				aux.word = (line.substr(0, pos));
+				line.erase(0, pos + delimiter.size());
+				auxiliar = aux.word;
+				auxiliar_2 = string_treatment(auxiliar);
+				aux.word = auxiliar_2;		// tokenizar essa linha
+
+				if (aux.word.size() == 1) {
+					check_if_stopword_final_cont(&input, &sw1, aux);
+				} else if (aux.word.size() == 2) {
+					check_if_stopword_final_cont(&input, &sw2, aux);
+				} else if (aux.word.size() == 3) {
+					check_if_stopword_final_cont(&input, &sw3, aux);
+				} else if (aux.word.size() == 4) {
+					check_if_stopword_final_cont(&input, &sw4, aux);
+				} else if (aux.word.size() == 5) {
+					check_if_stopword_final_cont(&input, &sw5, aux);
+				} else if (aux.word.size() == 6) {
+					check_if_stopword_final_cont(&input, &sw6, aux);
+				} else if (aux.word.size() == 7) {
+					check_if_stopword_final_cont(&input, &sw7, aux);
+				} else if (aux.word.size() == 8) {
+					check_if_stopword_final_cont(&input, &sw8, aux);
+				} else if (aux.word.size() == 9) {
+					check_if_stopword_final_cont(&input, &sw9, aux);
+				} else if (aux.word.size() == 10) {
+					check_if_stopword_final_cont(&input, &sw10, aux);
+				} else if (aux.word.size() == 11) {
+					check_if_stopword_final_cont(&input, &sw11, aux);
+				} else if (aux.word.size() == 12) {
+					check_if_stopword_final_cont(&input, &sw12, aux);
+				} else if (aux.word.size() == 13) {
+					check_if_stopword_final_cont(&input, &sw13, aux);
+				} else {
+					LInsertContWordSeen(&input, aux);	// jogar as palavras em uma lista
+				}
+			}
+			
+			verify_how_many_times_seen(&input, &document_1);	// verify_how_many_times_seen
+			verify_how_many_times_seen(&input, &document_2);
+			verify_how_many_times_seen(&input, &document_3);
+			verify_how_many_times_seen(&input, &document_4);
+			verify_how_many_times_seen(&input, &document_5);
+			verify_how_many_times_seen(&input, &document_6);
+			
+			tf_idf_calc(&input, &wordcounter_doc1, &wordcounter_doc2, &wordcounter_doc3, &wordcounter_doc4, &wordcounter_doc5, &wordcounter_doc6,
+			&document_1, &document_2, &document_3, &document_4, &document_5, &document_6); // tf_idf_calc
+
+			FLVazia(&input);
+			// esvaziar lista de input
+		}
+	}
+
+
+
+	// read_phrase(&input, "phrasetosearch.txt", &sw1, &sw2, &sw3, &sw4, &sw5, &sw6, &sw7, &sw8, &sw9, &sw10, &sw11, &sw12, &sw13);
 	
-	tf_idf_calc(&input, &wordcounter_doc1, &wordcounter_doc2, &wordcounter_doc3, &wordcounter_doc4, &wordcounter_doc5, &wordcounter_doc6,
-	&document_1, &document_2, &document_3, &document_4, &document_5, &document_6);
+	
+	
+	
 }
